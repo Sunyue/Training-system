@@ -3,3 +3,7 @@ training/target
 training/.settings
 .project
 .classpath
+TS/.idea
+TS/out
+gradlew
+gradlew.bat
