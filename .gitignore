@@ -1,0 +1,5 @@
+*.class
+training/target
+training/.settings
+.project
+.classpath
