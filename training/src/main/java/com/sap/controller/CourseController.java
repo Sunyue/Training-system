@@ -14,7 +14,7 @@ import com.sap.service.CourseService;
 @Controller 
 public class CourseController {
     @Resource 
-    private CourseService courseService;  
+    private CourseService courseService;  //courseService
  
     @RequestMapping("/")    
     public ModelAndView getIndex(){      
