@@ -8,6 +8,7 @@ spring:
     username: root
     password: Init123!
     driver-class-name: com.mysql.jdbc.Driver
+    initialize: false
 
 
 
