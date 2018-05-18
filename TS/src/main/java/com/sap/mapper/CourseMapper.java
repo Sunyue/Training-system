@@ -18,6 +18,9 @@ public interface CourseMapper {
             "           AND chaininfo.chainid = #{chainId}")
     List<Course> selectCourseByChain(@Param("chainId") int chainId);
 
-    @Select("SELECT * FROM chaininfo")
-    List<Course> selectAllChain();
+    @Select("SELECT courseinfo.coursname FROM courseinfo, chaininfo, chaincourse \n" +
+            "         WHERE chaininfo.chainid = chaincourse.chainid\n" +
+            "           AND courseinfo.courseid = chaincourse.courseid\n" +
+            "           AND chaininfo.chainid = #{chainId}")
+    List<String> selectCoursenameByChain(@Param("chainId") int chainId);
 }
