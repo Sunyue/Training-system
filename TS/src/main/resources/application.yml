@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/trainsystem
     username: root
-    password: Init123!
+    password: password
     driver-class-name: com.mysql.jdbc.Driver
 
 

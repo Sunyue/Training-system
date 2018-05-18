@@ -25,4 +25,8 @@ public class CourseServiceImpl implements CourseService{
 		// TODO Auto-generated method stub
 		return courseMapper.selectCourseByChain(chainId);
 	}
+	public List<String> selectCoursenameByChain(Integer chainId) {
+        // TODO Auto-generated method stub
+        return courseMapper.selectCoursenameByChain(chainId);
+    }
 }
