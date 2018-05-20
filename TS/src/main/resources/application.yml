@@ -10,6 +10,10 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     initialize: false
 
-
-
-
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    cache: false
+    #spring.thymeleaf.encoding=UTF-8
+    #spring.thymeleaf.content-type=text/html # ;charset=<encoding> is added
