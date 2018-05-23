@@ -12,7 +12,13 @@ spring:
   session:
     store-type: jdbc
     jdbc:
-      initialize-schema: always
+      initialize-schema: embedded
+      cleanup-cron: 0 * * * * *
+
+server:
+  session:
+    timeout: 120
+
 
 
 

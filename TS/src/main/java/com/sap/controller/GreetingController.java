@@ -29,7 +29,12 @@ public class GreetingController {
 
     @RequestMapping("/login")
     public String login(HttpSession session, @RequestParam("username") String username,@RequestParam("password") String password){
-        session.setAttribute(username,password);
-        return "PUT OK";
+
+        if (session.getAttribute(username) == null){
+            session.setAttribute(username,password);
+            return "PUT OK";
+        }else {
+            return "Already logged in";
+        }
     }
 }
