@@ -27,12 +27,11 @@ public class GreetingController {
         return c;
     }
 
-    @RequestMapping("/login")
-    public String login(HttpSession session, @RequestParam("username") String username,@RequestParam("password") String password){
+    @RequestMapping("/getSession")
+    public String login(HttpSession session, @RequestParam("username") String username){
 
         if (session.getAttribute(username) == null){
-            session.setAttribute(username,password);
-            return "PUT OK";
+            return "empty";
         }else {
             return "Already logged in";
         }
