@@ -9,6 +9,10 @@ spring:
     password: password
     driver-class-name: com.mysql.jdbc.Driver
     initialize: false
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
 
 
 

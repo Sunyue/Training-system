@@ -5,6 +5,8 @@ import com.sap.domain.Course;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -23,5 +25,11 @@ public class GreetingController {
         c.setDescription("Description");
 
         return c;
+    }
+
+    @RequestMapping("/login")
+    public String login(HttpSession session, @RequestParam("username") String username,@RequestParam("password") String password){
+        session.setAttribute(username,password);
+        return "PUT OK";
     }
 }
