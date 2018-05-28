@@ -20,6 +20,10 @@ server:
     timeout: 120
 
 
-
-
-
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    cache: false
+    #spring.thymeleaf.encoding=UTF-8
+    #spring.thymeleaf.content-type=text/html # ;charset=<encoding> is added
