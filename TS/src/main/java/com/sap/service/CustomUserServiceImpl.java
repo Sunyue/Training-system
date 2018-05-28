@@ -2,6 +2,8 @@ package com.sap.service;
 
 import com.sap.domain.User;
 import com.sap.mapper.UserMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +17,7 @@ import java.util.List;
 public class CustomUserServiceImpl implements UserDetailsService {
     @Autowired
     private final UserMapper userMapper;
-
+    private static final Logger log = LoggerFactory.getLogger(CustomUserServiceImpl.class);
     public CustomUserServiceImpl(UserMapper userMapper){
         this.userMapper = userMapper;
     }
@@ -29,6 +31,7 @@ public class CustomUserServiceImpl implements UserDetailsService {
         }
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getUserrole()));
+        log.info(user.getUsername()+"_"+authorities);
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(),
                 user.getPassword(), authorities);
