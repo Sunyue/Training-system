@@ -23,3 +23,11 @@ CREATE TABLE `chaininfo` (
   `isdefined` int(11) DEFAULT NULL,
   PRIMARY KEY (`chainid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `userinfo`;
+CREATE TABLE `userinfo` (
+  `username` varchar(30) NOT NULL,
+  `password` varchar(20) DEFAULT NULL,
+  `userrole` varchar(1) DEFAULT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
