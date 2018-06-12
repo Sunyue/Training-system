@@ -49,7 +49,7 @@
   <form class="form-horizontal" role="form" th:action="@{/logout}" method="post">
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-2">
-        You have been logged in already.
+        Hello <span sec:authentication="name"/>, You have been logged in already.
       </div>
     </div>
     <div class="form-group">
