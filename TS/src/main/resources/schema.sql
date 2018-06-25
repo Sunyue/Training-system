@@ -31,3 +31,23 @@ CREATE TABLE `userinfo` (
   `userrole` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `materialinfo`;
+CREATE TABLE `materialinfo` (
+  `materialid`   int(11) NOT NULL,
+  `courseid`     int(11) NOT NULL,
+  `materialtype` int(11)  DEFAULT 3,
+  `attachfilepath` varchar(300) DEFAULT NULL,
+  `filetype`       varchar(10) DEFAULT NULL,
+  `materialstatus` int(11) DEFAULT 1,
+  `materialscore`  float(5,2) DEFAULT 0,
+  `materialweight` float(5,2) DEFAULT 0,
+  PRIMARY KEY (`materialid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `userchain` (
+  `username`     varchar(30) NOT NULL,
+  `chainid`      int(11) NOT NULL,
+  `status`       int(11) DEFAULT 0
+  PRIMARY KEY (`username`,`chainid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

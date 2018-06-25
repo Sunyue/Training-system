@@ -19,10 +19,15 @@
 						<h3 th:text="${chainView.chainName}" class="name">
 						</h3>
 						<a class='btn btn-primary ' th:href="@{'/course?chainId='+${chainView.chainId}}">Edit Chain</a>
-						<ol th:each="courseName : ${chainView.courseNames}">
-							<li th:text="${courseName}" class="name">
-							</li>
-						</ol>
+						<!--<ol th:each="courseName : ${chainView.courseNames}">-->
+							<!--<li th:text="${courseName}" class="name">-->
+							<!--</li>-->
+						<!--</ol>-->
+						<li>
+							<div th:each="courseName : ${chainView.courseNames}">
+								<div th:text="${courseName}"></div>
+							</div>
+						</li>
 					</div>
 				</div>
 			</div>
