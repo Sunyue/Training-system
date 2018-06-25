@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.sap.domain.Course;
 import com.sap.service.CourseService;
@@ -32,10 +33,10 @@ public class CourseController {
     }    
     
     @RequestMapping("/course")    
-    public String getCourse(Model model){
+    public String getCourse(Model model, @RequestParam(value="chainId", defaultValue="1") Integer chainId){
         log.info("Hello Course");
         ModelAndView mav = new ModelAndView("course");   
-        List<Course> courseList = courseService.selectCourseByChain(1);
+        List<Course> courseList = courseService.selectCourseByChain(chainId);
         model.addAttribute("courseList", courseList);
         return "course";
     }
