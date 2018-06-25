@@ -10,9 +10,19 @@
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span12">
-				<h3>
-					Edit Course Chain
-				</h3>
+				<div id="header" style="height: 60px; width: 100%">
+					<h3 style="float:left">
+						Edit Course Chain
+					</h3>
+					<div style="margin-left:45%;margin-top:25px;float:left">
+						Hello <span sec:authentication="name"/>!
+					</div>
+					<form class="form-horizontal" role="form" th:action="@{/logout}" method="post">
+						<div style="margin-left:20px; margin-top:15px;float:left">
+							<input type="submit" class="btn btn-default" value="Logout"/>
+						</div>
+					</form>
+				</div>
 				<a class='btn btn-primary ' href="">Create new Chain</a>
 				<div class="row-fluid">
 					<div class="col-md-4" th:each="chainView : ${chainViewList}">
