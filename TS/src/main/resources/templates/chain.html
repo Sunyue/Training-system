@@ -28,7 +28,12 @@
 					<div class="col-md-4" th:each="chainView : ${chainViewList}">
 						<h3 th:text="${chainView.chainName}" class="name">
 						</h3>
-						<a class='btn btn-primary ' th:href="@{'/course?chainId='+${chainView.chainId}}">Edit Chain</a>
+						<div sec:authorize="hasRole('ROLE_A')">
+							<a class='btn btn-primary ' th:href="@{'/course?chainId='+${chainView.chainId}}">Edit Chain</a>
+						</div>
+						<div sec:authorize="hasRole('ROLE_S')">
+							<a class='btn btn-primary ' th:href="@{'/course?chainId='+${chainView.chainId}}">Display Chain</a>
+						</div>
 						<ol th:each="courseName : ${chainView.courseNames}">
 							<li th:text="${courseName}" class="name">
 							</li>

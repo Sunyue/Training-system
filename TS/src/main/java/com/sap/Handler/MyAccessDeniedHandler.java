@@ -41,7 +41,7 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
         }
 
         if(role.equals("ROLE_S")){
-            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/chain");
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/student/");
         }else if (role.equals("ROLE_A")){
             httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/course");
         }else {

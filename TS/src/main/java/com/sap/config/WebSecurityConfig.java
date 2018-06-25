@@ -24,8 +24,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/chain").hasAnyRole("S")
-                .antMatchers("/course").hasAnyRole("A")
+                .antMatchers("/student/**").hasAnyRole("S")
+                //.antMatchers("/course").hasAnyRole("A")
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

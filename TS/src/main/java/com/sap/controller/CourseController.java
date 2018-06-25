@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sap.domain.Course;
 import com.sap.service.CourseService;
 
-@Controller 
+@Controller
 public class CourseController {
     @Autowired
     private CourseService courseService;
@@ -30,9 +30,9 @@ public class CourseController {
 //        }
         mav.addObject("course", course);   
         return mav;    
-    }    
-    
-    @RequestMapping("/course")    
+    }
+
+    @RequestMapping("/course")
     public String getCourse(Model model, @RequestParam(value="chainId", defaultValue="1") Integer chainId){
         log.info("Hello Course");
         ModelAndView mav = new ModelAndView("course");   
