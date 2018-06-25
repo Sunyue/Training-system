@@ -23,4 +23,9 @@ public class ChainServiceImpl implements ChainService{
         return chainMapper.selectAllChain();
     }
 
+    public List<Chain> selectChainByUser(String username) {
+        // TODO Auto-generated method stub
+        return chainMapper.selectChainByUser(username);
+    }
+
 }

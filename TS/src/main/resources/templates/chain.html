@@ -34,10 +34,12 @@
 						<div sec:authorize="hasRole('ROLE_S')">
 							<a class='btn btn-primary ' th:href="@{'/course?chainId='+${chainView.chainId}}">Display Chain</a>
 						</div>
-						<ol th:each="courseName : ${chainView.courseNames}">
-							<li th:text="${courseName}" class="name">
-							</li>
-						</ol>
+						<li>
+							<div th:each="courseName : ${chainView.courseNames}">
+								<div th:text="${courseName}"></div>
+							</div>
+						</li>
+
 					</div>
 				</div>
 			</div>
