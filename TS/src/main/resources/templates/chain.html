@@ -23,7 +23,9 @@
 						</div>
 					</form>
 				</div>
-				<a class='btn btn-primary ' href="">Create new Chain</a>
+				<div sec:authorize="hasRole('ROLE_A')">
+					<a class='btn btn-primary ' href="">Create new Chain</a>
+				</div>
 				<div class="row-fluid">
 					<div class="col-md-4" th:each="chainView : ${chainViewList}">
 						<h3 th:text="${chainView.chainName}" class="name">

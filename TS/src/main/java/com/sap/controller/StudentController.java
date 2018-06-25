@@ -39,7 +39,7 @@ public class StudentController {
 
         List<ChainView> chainViewList = new ArrayList<>();
 
-        List<Chain> chainList = chainService.selectAllChain();
+        List<Chain> chainList = chainService.selectChainByUser(auth.getName());
         for(Chain chain: chainList) {
             ChainView chainView = new ChainView();
             chainView.setChain(chain);

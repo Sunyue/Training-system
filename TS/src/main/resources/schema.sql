@@ -45,9 +45,10 @@ CREATE TABLE `materialinfo` (
   PRIMARY KEY (`materialid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `userchain`;
 CREATE TABLE `userchain` (
   `username`     varchar(30) NOT NULL,
   `chainid`      int(11) NOT NULL,
-  `status`       int(11) DEFAULT 0
+  `status`       int(11) DEFAULT 0,
   PRIMARY KEY (`username`,`chainid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
