@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -16,11 +17,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     CustomUserServiceImpl customUserService;
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
+                .antMatchers("/chain").hasAnyRole("S")
+                .antMatchers("/course").hasAnyRole("A")
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -30,7 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .logout()
                 .logoutUrl("/logout")
                 .invalidateHttpSession(true)
-                .permitAll();
+                .permitAll()
+                .and()
+            .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
 
     @Override

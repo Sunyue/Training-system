@@ -4,4 +4,4 @@ INSERT INTO `chaincourse` VALUES (1,1,1),(1,2,2),(1,3,3),(1,4,4),(1,5,5),(1,6,6)
 
 INSERT INTO `chaininfo` VALUES (1,'ABAP',1),(2,'JAVA',1),(3,'Database',1),(4,'SLT',1),(5,'Python',1);
 
-INSERT INTO `userinfo` VALUES ('admin','password','1'),('user','password','2');
+INSERT INTO `userinfo` VALUES ('admin','password','A'),('user','password','S');

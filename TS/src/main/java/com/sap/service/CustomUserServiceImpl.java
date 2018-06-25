@@ -30,7 +30,7 @@ public class CustomUserServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("User does not exist!");
         }
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getUserrole()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getUserrole()));
         log.info(user.getUsername()+"_"+authorities);
 
         return new org.springframework.security.core.userdetails.User(user.getUsername(),
