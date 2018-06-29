@@ -1,5 +1,6 @@
 package com.sap.config;
 
+import com.sap.Handler.MyAccessSuccessHandler;
 import com.sap.service.CustomUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -19,6 +21,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     CustomUserServiceImpl customUserService;
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
+    @Autowired
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -31,6 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin()
                 .loginPage("/login")
                 .permitAll()
+                .successHandler(authenticationSuccessHandler)
                 .and()
             .logout()
                 .logoutUrl("/logout")
