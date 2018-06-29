@@ -31,10 +31,10 @@
 						<h3 th:text="${chainView.chainName}" class="name">
 						</h3>
 						<div sec:authorize="hasRole('ROLE_A')">
-							<a class='btn btn-primary ' th:href="@{'/course?chainId='+${chainView.chainId}}">Edit Chain</a>
+							<a class='btn btn-primary ' th:href="@{'/admin/course?chainId='+${chainView.chainId}}">Edit Chain</a>
 						</div>
 						<div sec:authorize="hasRole('ROLE_S')">
-							<a class='btn btn-primary ' th:href="@{'/course?chainId='+${chainView.chainId}}">Display Chain</a>
+							<a class='btn btn-primary ' th:href="@{'/student/course?chainId='+${chainView.chainId}}">Display Chain</a>
 						</div>
 						<li>
 							<div th:each="courseName : ${chainView.courseNames}">
