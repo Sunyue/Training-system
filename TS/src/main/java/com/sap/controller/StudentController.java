@@ -55,9 +55,12 @@ public class StudentController extends MultistepController {
     @RequestMapping("/course")
     public String getCourse(Model model, @RequestParam(value="chainId", defaultValue="1") Integer chainId){
         log.info("Chain Id:" + chainId);
-        ModelAndView mav = new ModelAndView("course");
-        List<Course> courseList = courseService.selectCourseByChain(chainId);
-        model.addAttribute("courseList", courseList);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(chainService.checkUserChainRelation(auth.getName(), chainId) == true){
+            ModelAndView mav = new ModelAndView("course");
+            List<Course> courseList = courseService.selectCourseByChain(chainId);
+            model.addAttribute("courseList", courseList);
+        }
         return "course";
     }
 

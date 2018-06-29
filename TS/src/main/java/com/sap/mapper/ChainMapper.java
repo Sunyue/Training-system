@@ -18,4 +18,9 @@ public interface ChainMapper {
             "         WHERE chaininfo.chainid = userchain.chainid\n" +
             "           AND userchain.username = #{username}")
     List<Chain> selectChainByUser(@Param("username") String username);
+
+    @Select("SELECT userchain.* FROM userchain \n" +
+            "   WHERE userchain.username = #{username} \n" +
+            "   AND userchain.chainid = #{chainid}")
+    List<Chain> selectChainByUserAndChain(@Param("username") String username, @Param("chainid") Integer chainId);
 }

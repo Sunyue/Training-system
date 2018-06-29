@@ -8,4 +8,5 @@ import java.util.List;
 public interface ChainService {
 	List<Chain> selectAllChain();
 	List<Chain> selectChainByUser(String username);
+	Boolean checkUserChainRelation(String username, Integer chainId);
 }

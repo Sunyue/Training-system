@@ -28,4 +28,12 @@ public class ChainServiceImpl implements ChainService{
         return chainMapper.selectChainByUser(username);
     }
 
+    @Override
+    public Boolean checkUserChainRelation(String username, Integer chainId) {
+        if(chainMapper.selectChainByUserAndChain(username, chainId).size()>0) {
+            return true;
+        }
+        return false;
+    }
+
 }
