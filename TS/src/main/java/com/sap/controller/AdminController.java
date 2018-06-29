@@ -10,8 +10,6 @@ import com.sap.service.MaterialService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/student")
-public class StudentController extends MultistepController {
+@RequestMapping("/admin")
+public class AdminController extends MultistepController {
 
     @Autowired
     private CourseService courseService;
@@ -32,15 +30,14 @@ public class StudentController extends MultistepController {
     @Autowired
     private MaterialService materialService;
 
-    private static final Logger log = LoggerFactory.getLogger(StudentController.class);
+    private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
     @RequestMapping("/")
-    public String getChain(Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        log.info("User '"+ auth.getName() + "' with role '" + auth.getAuthorities() + "' is reaching to chain page");
+    @Override
+    String getChain(Model model) {
         ModelAndView mav = new ModelAndView("chain");
         List<ChainView> chainViewList = new ArrayList<>();
-        List<Chain> chainList = chainService.selectChainByUser(auth.getName());
+        List<Chain> chainList = chainService.selectAllChain();
         for(Chain chain: chainList) {
             ChainView chainView = new ChainView();
             chainView.setChain(chain);
@@ -53,6 +50,7 @@ public class StudentController extends MultistepController {
     }
 
     @RequestMapping("/course")
+    @Override
     public String getCourse(Model model, @RequestParam(value="chainId", defaultValue="1") Integer chainId){
         log.info("Chain Id:" + chainId);
         ModelAndView mav = new ModelAndView("course");
@@ -62,6 +60,7 @@ public class StudentController extends MultistepController {
     }
 
     @RequestMapping("/material")
+    @Override
     public String getMaterial(Model model, @RequestParam(value="courseId", defaultValue="1") Integer courseId){
         log.info("Course Id:" + courseId);
         ModelAndView mav = new ModelAndView("material");
@@ -69,5 +68,4 @@ public class StudentController extends MultistepController {
         model.addAttribute("materialList", materialList);
         return "course_detail";
     }
-
 }
