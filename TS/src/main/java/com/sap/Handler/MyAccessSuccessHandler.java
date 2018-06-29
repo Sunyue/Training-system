@@ -1,5 +1,6 @@
 package com.sap.Handler;
 
+import com.sap.Constant.Consts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -33,12 +34,12 @@ public class MyAccessSuccessHandler implements AuthenticationSuccessHandler {
                     + request.getRequestURI());
         }
 
-        if(role.equals("ROLE_S")){
-            response.sendRedirect(request.getContextPath() + "/student/");
-        }else if (role.equals("ROLE_A")){
-            response.sendRedirect(request.getContextPath() + "/admin/");
+        if(role.equals("ROLE_" + Consts.studentRole)){
+            response.sendRedirect(request.getContextPath() + Consts.studentHomePage);
+        }else if (role.equals("ROLE_" + Consts.adminRole)){
+            response.sendRedirect(request.getContextPath() + Consts.adminHomePage);
         }else {
-            response.sendRedirect(request.getContextPath() + "/403");
+            response.sendRedirect(request.getContextPath() + Consts.pageNotFound);
         }
     }
 }

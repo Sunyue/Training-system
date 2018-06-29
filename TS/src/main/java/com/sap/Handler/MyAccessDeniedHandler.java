@@ -1,5 +1,6 @@
 package com.sap.Handler;
 
+import com.sap.Constant.Consts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
@@ -40,12 +41,12 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
                     + httpServletRequest.getRequestURI());
         }
 
-        if(role.equals("ROLE_S")){
-            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/student/");
-        }else if (role.equals("ROLE_A")){
-            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/admin/");
+        if(role.equals("ROLE_"+Consts.studentRole)){
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + Consts.studentHomePage);
+        }else if (role.equals("ROLE_"+Consts.adminRole)){
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + Consts.adminHomePage);
         }else {
-            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/403");
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + Consts.pageNotFound);
         }
     }
 }

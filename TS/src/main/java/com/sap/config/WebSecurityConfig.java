@@ -1,5 +1,6 @@
 package com.sap.config;
 
+import com.sap.Constant.Consts;
 import com.sap.Handler.MyAccessSuccessHandler;
 import com.sap.service.CustomUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/student/**").hasAnyRole("S")
-                .antMatchers("/admin/**").hasAnyRole("A")
+                .antMatchers("/student/**").hasAnyRole(Consts.studentRole)
+                .antMatchers("/admin/**").hasAnyRole(Consts.adminRole)
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

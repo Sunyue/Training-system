@@ -32,9 +32,14 @@ public class AdminController extends MultistepController {
 
     private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
+    @RequestMapping("/home")
+    public String goToHomePage(Model model){
+        return "admin";
+    }
+
     @RequestMapping("/")
     @Override
-    String getChain(Model model) {
+    public String getChain(Model model) {
         ModelAndView mav = new ModelAndView("chain");
         List<ChainView> chainViewList = new ArrayList<>();
         List<Chain> chainList = chainService.selectAllChain();
