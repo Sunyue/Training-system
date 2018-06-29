@@ -3,8 +3,10 @@ package com.sap.controller;
 import com.sap.domain.Chain;
 import com.sap.domain.ChainView;
 import com.sap.domain.Course;
+import com.sap.domain.Material;
 import com.sap.service.ChainService;
 import com.sap.service.CourseService;
+import com.sap.service.MaterialService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class StudentController {
     private CourseService courseService;
     @Autowired
     private ChainService chainService;
+    @Autowired
+    private MaterialService materialService;
 
     private static final Logger log = LoggerFactory.getLogger(StudentController.class);
 
@@ -60,6 +64,15 @@ public class StudentController {
         List<Course> courseList = courseService.selectCourseByChain(chainId);
         model.addAttribute("courseList", courseList);
         return "course";
+    }
+
+    @RequestMapping("/material")
+    public String getMaterial(Model model, @RequestParam(value="courseId", defaultValue="1") Integer courseId){
+        log.info("Hello Material");
+        ModelAndView mav = new ModelAndView("material");
+        List<Material> materialList = materialService.selectMaterialByCourse(courseId);
+        model.addAttribute("materialList", materialList);
+        return "course_detail";
     }
 
 }
