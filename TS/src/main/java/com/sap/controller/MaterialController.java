@@ -19,6 +19,8 @@ public class MaterialController {
     private MaterialService materialService;
 
     private static final Logger log = LoggerFactory.getLogger(MaterialController.class);
+
+
     
     @RequestMapping("/material")
     public String getCourse(Model model, @RequestParam(value="courseId", defaultValue="1") Integer courseId){

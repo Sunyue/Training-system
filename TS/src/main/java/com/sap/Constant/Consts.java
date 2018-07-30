@@ -9,4 +9,6 @@ public final class Consts {
     //Role
     public static final String studentRole = "S";
     public static final String adminRole = "A";
+
+    public static final int defaultLimit = 4;
 }
