@@ -15,7 +15,6 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Course</th>
                         <th>Course name</th>
                         <th>Description</th>
                         <th>Edit</th>
@@ -23,7 +22,6 @@
                 </thead>
                 <tbody>
                     <tr th:each="course : ${courseList}">
-                        <td th:text="${course.courseId}" class="id"></td>
                         <td th:text="${course.courseName}" class="name"></td>
                         <td th:text="${course.description}" class="description"></td>
                         <td class="operate">
@@ -32,6 +30,12 @@
                     </tr>
                 </tbody>
             </table>
+            <div th:if="${totalPage > 1}" class="pagination"
+                 th:each="pageNumber : ${pageNumbers}">|
+                <a th:href="@{${#httpServletRequest.requestURI}(chainId=${chainId}, limit=${pageSize}, start=${pageNumber})}"
+                   th:text="${pageNumber}"
+                   th:class="${pageNumber==currentPage + 1} ? active"></a>
+            </div>
         </div>
     </body>
 </html>

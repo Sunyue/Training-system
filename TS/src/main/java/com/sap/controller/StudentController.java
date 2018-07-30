@@ -1,5 +1,7 @@
 package com.sap.controller;
 
+import com.github.pagehelper.PageInfo;
+import com.sap.Constant.Consts;
 import com.sap.domain.Chain;
 import com.sap.domain.ChainView;
 import com.sap.domain.Course;
@@ -20,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/student")
@@ -38,13 +42,12 @@ public class StudentController extends MultistepController {
     public String getChain(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         log.info("User '"+ auth.getName() + "' with role '" + auth.getAuthorities() + "' is reaching to chain page");
-        ModelAndView mav = new ModelAndView("chain");
         List<ChainView> chainViewList = new ArrayList<>();
         List<Chain> chainList = chainService.selectChainByUser(auth.getName());
         for(Chain chain: chainList) {
             ChainView chainView = new ChainView();
             chainView.setChain(chain);
-            List<String> courseNames = courseService.selectCoursenameByChain(chain.getChainId());
+            List<String> courseNames = courseService.selectCoursenameByChain(chain.getChainId(), 0, Consts.defaultLimit);
             chainView.setCourseNames(courseNames);
             chainViewList.add(chainView);
         }
@@ -53,13 +56,24 @@ public class StudentController extends MultistepController {
     }
 
     @RequestMapping("/course")
-    public String getCourse(Model model, @RequestParam(value="chainId", defaultValue="1") Integer chainId){
+    public String getCourse(Model model, @RequestParam(value="chainId", defaultValue="1") Integer chainId,
+                            @RequestParam(value="start", defaultValue = "1") int start,
+                            @RequestParam(value="limit", defaultValue = "4") int limit){
         log.info("Chain Id:" + chainId);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(chainService.checkUserChainRelation(auth.getName(), chainId) == true){
-            ModelAndView mav = new ModelAndView("course");
-            List<Course> courseList = courseService.selectCourseByChain(chainId);
-            model.addAttribute("courseList", courseList);
+            PageInfo<Course> pageInfo = courseService.selectCourseByChain(chainId, start, limit);
+            model.addAttribute("courseList", pageInfo.getList());
+            model.addAttribute("currentPage", pageInfo.getPageNum());
+            model.addAttribute("totalPage",pageInfo.getPages());
+            model.addAttribute("pageSize",pageInfo.getPageSize());
+            model.addAttribute("chainId",chainId);
+            if (pageInfo.getPages() > 0) {
+                List<Integer> pageNumbers = IntStream.rangeClosed(1, pageInfo.getPages())
+                        .boxed()
+                        .collect(Collectors.toList());
+                model.addAttribute("pageNumbers", pageNumbers);
+            }
         }
         return "course";
     }
@@ -67,7 +81,6 @@ public class StudentController extends MultistepController {
     @RequestMapping("/material")
     public String getMaterial(Model model, @RequestParam(value="courseId", defaultValue="1") Integer courseId){
         log.info("Course Id:" + courseId);
-        ModelAndView mav = new ModelAndView("material");
         List<Material> materialList = materialService.selectMaterialByCourse(courseId);
         model.addAttribute("materialList", materialList);
         return "course_detail";
