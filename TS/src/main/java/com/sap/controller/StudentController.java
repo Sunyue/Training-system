@@ -1,36 +1,22 @@
 package com.sap.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.sap.Constant.Consts;
 import com.sap.domain.Chain;
-import com.sap.domain.ChainView;
 import com.sap.domain.Course;
 import com.sap.domain.Material;
-import com.sap.service.ChainService;
-import com.sap.service.CourseService;
-import com.sap.service.MaterialService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/student")
 public class StudentController extends MultistepController {
-
-    @Autowired
-    private CourseService courseService;
-    @Autowired
-    private ChainService chainService;
-    @Autowired
-    private MaterialService materialService;
 
     private static final Logger log = LoggerFactory.getLogger(StudentController.class);
 
@@ -39,16 +25,8 @@ public class StudentController extends MultistepController {
                            @RequestParam(value="limit", defaultValue = "3") int limit){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         log.info("User '"+ auth.getName() + "' with role '" + auth.getAuthorities() + "' is reaching to chain page");
-        List<ChainView> chainViewList = new ArrayList<>();
         PageInfo<Chain> pageInfoChain = chainService.selectChainByUser(auth.getName(), start, limit);
-        for(Chain chain: pageInfoChain.getList()) {
-            ChainView chainView = new ChainView();
-            chainView.setChain(chain);
-            PageInfo<String> pageInfo = courseService.selectCoursenameByChain(chain.getChainId(), 0, Consts.defaultLimit);
-            chainView.setCourseNames(pageInfo.getList());
-            chainViewList.add(chainView);
-        }
-        model.addAttribute("chainViewList", chainViewList);
+        prepareChainViewList(model, pageInfoChain);
         setPageInfo(model,pageInfoChain);
         return "chain";
     }
