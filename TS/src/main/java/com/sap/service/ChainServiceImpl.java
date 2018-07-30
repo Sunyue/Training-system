@@ -1,5 +1,7 @@
 package com.sap.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sap.domain.Chain;
 import com.sap.domain.Course;
 import com.sap.mapper.ChainMapper;
@@ -19,13 +21,18 @@ public class ChainServiceImpl implements ChainService{
         this.chainMapper = chainMapper;
     }
 
-    public List<Chain> selectAllChain() {
-        return chainMapper.selectAllChain();
+    public PageInfo<Chain> selectAllChain(int start, int limit) {
+        PageHelper.startPage(start, limit);
+        List<Chain> list = chainMapper.selectAllChain();
+        PageInfo<Chain> pageInfo = new PageInfo<>(list);
+        return pageInfo;
     }
 
-    public List<Chain> selectChainByUser(String username) {
-        // TODO Auto-generated method stub
-        return chainMapper.selectChainByUser(username);
+    public PageInfo<Chain> selectChainByUser(String username, int start, int limit) {
+        PageHelper.startPage(start, limit);
+        List<Chain> list = chainMapper.selectChainByUser(username);
+        PageInfo<Chain> pageInfo = new PageInfo<>(list);
+        return pageInfo;
     }
 
     @Override

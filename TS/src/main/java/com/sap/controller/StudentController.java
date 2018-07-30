@@ -39,12 +39,13 @@ public class StudentController extends MultistepController {
     private static final Logger log = LoggerFactory.getLogger(StudentController.class);
 
     @RequestMapping("/")
-    public String getChain(Model model){
+    public String getChain(Model model, @RequestParam(value="start", defaultValue = "1") int start,
+                           @RequestParam(value="limit", defaultValue = "3") int limit){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         log.info("User '"+ auth.getName() + "' with role '" + auth.getAuthorities() + "' is reaching to chain page");
         List<ChainView> chainViewList = new ArrayList<>();
-        List<Chain> chainList = chainService.selectChainByUser(auth.getName());
-        for(Chain chain: chainList) {
+        PageInfo<Chain> pageInfoChain = chainService.selectChainByUser(auth.getName(), start, limit);
+        for(Chain chain: pageInfoChain.getList()) {
             ChainView chainView = new ChainView();
             chainView.setChain(chain);
             PageInfo<String> pageInfo = courseService.selectCoursenameByChain(chain.getChainId(), 0, Consts.defaultLimit);
@@ -52,6 +53,15 @@ public class StudentController extends MultistepController {
             chainViewList.add(chainView);
         }
         model.addAttribute("chainViewList", chainViewList);
+        model.addAttribute("currentPage", pageInfoChain.getPageNum());
+        model.addAttribute("totalPage",pageInfoChain.getPages());
+        model.addAttribute("pageSize",pageInfoChain.getPageSize());
+        if (pageInfoChain.getPages() > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, pageInfoChain.getPages())
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
         return "chain";
     }
 

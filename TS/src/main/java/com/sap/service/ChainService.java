@@ -1,12 +1,13 @@
 package com.sap.service;
 
 
+import com.github.pagehelper.PageInfo;
 import com.sap.domain.Chain;
 
 import java.util.List;
 
 public interface ChainService {
-	List<Chain> selectAllChain();
-	List<Chain> selectChainByUser(String username);
+	PageInfo<Chain> selectAllChain(int start, int limit);
+	PageInfo<Chain> selectChainByUser(String username, int start, int limit);
 	Boolean checkUserChainRelation(String username, Integer chainId);
 }

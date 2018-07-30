@@ -32,7 +32,7 @@
             </table>
             <div th:if="${totalPage > 1}" class="pagination"
                  th:each="pageNumber : ${pageNumbers}">|
-                <a th:href="@{${#httpServletRequest.requestURI}(chainId=${chainId}, limit=${pageSize}, start=${pageNumber})}"
+                <a th:href="@{${#httpServletRequest.requestURI}(chainId=${chainId}, start=${pageNumber})}"
                    th:text="${pageNumber}"
                    th:class="${pageNumber==currentPage + 1} ? active"></a>
             </div>

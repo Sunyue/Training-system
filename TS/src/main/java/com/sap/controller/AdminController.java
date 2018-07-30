@@ -43,10 +43,11 @@ public class AdminController extends MultistepController {
 
     @RequestMapping("/")
     @Override
-    public String getChain(Model model) {
+    public String getChain(Model model, @RequestParam(value="start", defaultValue = "1") int start,
+                           @RequestParam(value="limit", defaultValue = "3") int limit) {
         List<ChainView> chainViewList = new ArrayList<>();
-        List<Chain> chainList = chainService.selectAllChain();
-        for(Chain chain: chainList) {
+        PageInfo<Chain> pageInfo = chainService.selectAllChain(start,limit);
+        for(Chain chain: pageInfo.getList()) {
             ChainView chainView = new ChainView();
             chainView.setChain(chain);
             PageInfo<String> pageinfo = courseService.selectCoursenameByChain(chain.getChainId(), 0, Consts.defaultLimit);
@@ -54,6 +55,15 @@ public class AdminController extends MultistepController {
             chainViewList.add(chainView);
         }
         model.addAttribute("chainViewList", chainViewList);
+        model.addAttribute("currentPage", pageInfo.getPageNum());
+        model.addAttribute("totalPage",pageInfo.getPages());
+        model.addAttribute("pageSize",pageInfo.getPageSize());
+        if (pageInfo.getPages() > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, pageInfo.getPages())
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
         return "chain";
     }
 
