@@ -18,12 +18,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/student")
@@ -53,15 +49,7 @@ public class StudentController extends MultistepController {
             chainViewList.add(chainView);
         }
         model.addAttribute("chainViewList", chainViewList);
-        model.addAttribute("currentPage", pageInfoChain.getPageNum());
-        model.addAttribute("totalPage",pageInfoChain.getPages());
-        model.addAttribute("pageSize",pageInfoChain.getPageSize());
-        if (pageInfoChain.getPages() > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, pageInfoChain.getPages())
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
+        setPageInfo(model,pageInfoChain);
         return "chain";
     }
 
@@ -74,16 +62,8 @@ public class StudentController extends MultistepController {
         if(chainService.checkUserChainRelation(auth.getName(), chainId) == true){
             PageInfo<Course> pageInfo = courseService.selectCourseByChain(chainId, start, limit);
             model.addAttribute("courseList", pageInfo.getList());
-            model.addAttribute("currentPage", pageInfo.getPageNum());
-            model.addAttribute("totalPage",pageInfo.getPages());
-            model.addAttribute("pageSize",pageInfo.getPageSize());
             model.addAttribute("chainId",chainId);
-            if (pageInfo.getPages() > 0) {
-                List<Integer> pageNumbers = IntStream.rangeClosed(1, pageInfo.getPages())
-                        .boxed()
-                        .collect(Collectors.toList());
-                model.addAttribute("pageNumbers", pageNumbers);
-            }
+            setPageInfo(model,pageInfo);
         }
         return "course";
     }
