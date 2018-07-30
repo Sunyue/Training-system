@@ -25,7 +25,7 @@
                         <td th:text="${course.courseName}" class="name"></td>
                         <td th:text="${course.description}" class="description"></td>
                         <td class="operate">
-                            <span class="btn btn-default">Edit</span>
+                            <a class='btn btn-primary ' th:href="@{'/admin/material?courseId='+${course.courseId}}">Edit</a>
                         </td>
                     </tr>
                 </tbody>

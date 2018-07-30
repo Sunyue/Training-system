@@ -9,13 +9,18 @@
 <body>
 <div class="page-header">
 	<h3>
-	   <div th:text ="${courseName}">
+        <div th:text ="${courseName}"> </div>
 	</h3>
 </div>
 <label>Material</label>
 <div class="checkbox" th:each="material : ${materialList}">
-    <label><input type="checkbox" value=""/>Introduction</label>
+    <label><input type="checkbox" value=""/>
+        <div th:text ="${material.materialName}"> </div>
+    </label>
 </div>
+
+<input type="file" id="outputfile" />
+<button type="submit" class="btn btn-default">Download</button>
 
 
 <p>
