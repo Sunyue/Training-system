@@ -7,25 +7,36 @@
 	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-
-<div class="page-header">
-	<h1>
-	   Administrator Function
-	</h1>
-</div>
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="span4">
-			<a class="btn btn-large btn-block btn-info" th:href="@{'/admin/'}">Course Setting</a>
-			<button class="btn btn-info btn-large btn-block" type="button">User Course Bindings</button>
-			<button class="btn btn-info btn-large btn-block" type="button">User Management</button>
-			<button class="btn btn-info btn-large btn-block" type="button">View Log-time</button>
-		</div>
-		<div class="span4">
-			<img alt="140x140" src="img/a.jpg" class="img-polaroid" />
+	<div class="navbar navbar-inverse" th:fragment="header">
+		<div class="container">
+			<div class="navbar-header">
+				<span class="navbar-brand">Training system</span>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li th:if="${#authorization.expression('isAuthenticated()')}">
+						<a onclick="$('#form').submit();">Logout</a>
+						<form style="visibility: hidden" id="form" method="post" th:action="@{/logout}"></form>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
-</div>
 
+	<div class="container">
+		<div class="hero-unit">
+			<h1>Administrator Function</h1>
+		</div>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span4">
+					<a class="btn btn-large btn-block btn-info" th:href="@{'/admin/'}">Course Setting</a>
+					<button class="btn btn-info btn-large btn-block" type="button">User Course Bindings</button>
+					<button class="btn btn-info btn-large btn-block" type="button">User Management</button>
+					<button class="btn btn-info btn-large btn-block" type="button">View Log-time</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
