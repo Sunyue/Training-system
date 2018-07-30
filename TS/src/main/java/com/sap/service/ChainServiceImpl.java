@@ -3,9 +3,7 @@ package com.sap.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sap.domain.Chain;
-import com.sap.domain.Course;
 import com.sap.mapper.ChainMapper;
-import com.sap.mapper.CourseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

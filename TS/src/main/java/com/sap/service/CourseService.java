@@ -1,8 +1,5 @@
 package com.sap.service;
 
-
-import java.util.List;
-
 import com.github.pagehelper.PageInfo;
 import com.sap.domain.Course;
 
