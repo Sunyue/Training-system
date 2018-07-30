@@ -3,10 +3,11 @@ package com.sap.service;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
 import com.sap.domain.Course;
 
 public interface CourseService {
 	Course selectCourseById(Integer courseId);
-	List<Course> selectCourseByChain(Integer chainId);
-	List<String> selectCoursenameByChain(Integer chainId);
+	PageInfo<Course> selectCourseByChain(Integer chainId, int start, int limit);
+	PageInfo<String> selectCoursenameByChain(Integer chainId, int start, int limit);
 }

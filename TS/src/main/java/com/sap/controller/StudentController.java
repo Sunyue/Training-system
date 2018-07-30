@@ -47,8 +47,8 @@ public class StudentController extends MultistepController {
         for(Chain chain: chainList) {
             ChainView chainView = new ChainView();
             chainView.setChain(chain);
-            List<String> courseNames = courseService.selectCoursenameByChain(chain.getChainId(), 0, Consts.defaultLimit);
-            chainView.setCourseNames(courseNames);
+            PageInfo<String> pageInfo = courseService.selectCoursenameByChain(chain.getChainId(), 0, Consts.defaultLimit);
+            chainView.setCourseNames(pageInfo.getList());
             chainViewList.add(chainView);
         }
         model.addAttribute("chainViewList", chainViewList);

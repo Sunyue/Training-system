@@ -17,7 +17,7 @@ spring:
 
 server:
   session:
-    timeout: 120
+    timeout: 300
 
 
   thymeleaf:

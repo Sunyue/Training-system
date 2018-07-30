@@ -49,8 +49,8 @@ public class AdminController extends MultistepController {
         for(Chain chain: chainList) {
             ChainView chainView = new ChainView();
             chainView.setChain(chain);
-            List<String> courseNames = courseService.selectCoursenameByChain(chain.getChainId(), 0, Consts.defaultLimit);
-            chainView.setCourseNames(courseNames);
+            PageInfo<String> pageinfo = courseService.selectCoursenameByChain(chain.getChainId(), 0, Consts.defaultLimit);
+            chainView.setCourseNames(pageinfo.getList());
             chainViewList.add(chainView);
         }
         model.addAttribute("chainViewList", chainViewList);

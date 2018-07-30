@@ -1,11 +1,11 @@
 package com.sap.service;
 
 import java.util.List;
-
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sap.mapper.CourseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.sap.dao.CourseDao;
 import com.sap.domain.Course;
 
 @Service
@@ -21,12 +21,19 @@ public class CourseServiceImpl implements CourseService{
     public Course selectCourseById(Integer courseId) {  
         return courseMapper.selectCourseById(courseId);
     }
-	public List<Course> selectCourseByChain(Integer chainId) {
+
+	public PageInfo<Course> selectCourseByChain(Integer chainId, int start, int limit) {
 		// TODO Auto-generated method stub
-		return courseMapper.selectCourseByChain(chainId);
+        PageHelper.startPage(start, limit);
+        List<Course> list = courseMapper.selectCourseByChain(chainId);
+        PageInfo<Course> pageInfo = new PageInfo<>(list);
+        return pageInfo;
 	}
-	public List<String> selectCoursenameByChain(Integer chainId) {
-        // TODO Auto-generated method stub
-        return courseMapper.selectCoursenameByChain(chainId);
+
+    public PageInfo<String> selectCoursenameByChain(Integer chainId, int start, int limit){
+        PageHelper.startPage(start, limit);
+        List<String> list =  courseMapper.selectCoursenameByChain(chainId);
+        PageInfo<String> pageInfo = new PageInfo<>(list);
+        return pageInfo;
     }
 }
