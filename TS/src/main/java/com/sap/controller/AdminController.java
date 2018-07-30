@@ -51,6 +51,8 @@ public class AdminController extends MultistepController {
     public String getMaterial(Model model, @RequestParam(value="courseId", defaultValue="1") Integer courseId){
         log.info("Course Id:" + courseId);
         List<Material> materialList = materialService.selectMaterialByCourse(courseId);
+        Course course = courseService.selectCourseById(courseId);
+        model.addAttribute("courseName", course.getCourseName());
         model.addAttribute("materialList", materialList);
         return "course_detail";
     }

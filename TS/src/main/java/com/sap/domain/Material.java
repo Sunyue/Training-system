@@ -3,6 +3,7 @@ package com.sap.domain;
 public class Material {
     private Integer materialId;
     private Integer courseId;
+    private String  materialName;
     private Integer materialLearnType;
     private String  attachFilepath;
     private String  fileType;
@@ -25,6 +26,10 @@ public class Material {
     public void setCourseId(Integer courseId) {
         this.courseId = courseId;
     }
+
+    public String getMaterialName() { return materialName; }
+
+    public void setMaterialName(String materialName) { this.materialName = materialName; }
 
     public Integer getMaterialLearnType() {
         return materialLearnType;

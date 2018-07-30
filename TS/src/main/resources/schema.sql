@@ -35,6 +35,7 @@ CREATE TABLE `userinfo` (
 DROP TABLE IF EXISTS `materialinfo`;
 CREATE TABLE `materialinfo` (
   `materialid`   int(11) NOT NULL,
+  `materialname` varchar(100) NOT NULL,
   `courseid`     int(11) NOT NULL,
   `materialtype` int(11)  DEFAULT 3,
   `attachfilepath` varchar(300) DEFAULT NULL,
