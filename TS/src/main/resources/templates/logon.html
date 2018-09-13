@@ -3,62 +3,59 @@
 	<meta charset="utf-8"/>
 	<title>Logon Page</title>
 	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link href="../static/css/logon.css" th:href="@{/css/logon.css}" rel="stylesheet"/>
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body>
-<div sec:authorize="isAnonymous()">
-  <form class="form-horizontal" role="form" th:action="@{/login}" method="post">
-    <div class="form-group">
-      <label for="username" class="col-sm-2 control-label">Username</label>
-      <div class="col-sm-2">
-        <input type="text" class="form-control" id="username" name="username" placeholder="Please input username"/>
+<body id="LoginForm">
+<div class="container">
+  <h1 class="form-heading">Training system</h1>
+  <div class="login-form">
+    <div class="main-div">
+      <div class="panel">
+        <h2>Login</h2>
+        <p>Please enter your username and password</p>
+      </div>
+      <div sec:authorize="isAnonymous()">
+        <form class="form-horizontal" role="form" th:action="@{/login}" method="post">
+          <div class="form-group">
+              <input type="text" class="form-control" id="username" name="username" placeholder="Please input username"/>
+          </div>
+          <div class="form-group">
+              <input type="password" class="form-control" id="password" name="password" placeholder="Please input password"/>
+          </div>
+          <div class="form-group">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"/>Remember Me
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="submit" class="btn btn-default" value="Logon"/>
+          </div>
+          <div class="form-group">
+            <div th:if="${param.error}">
+              Invalid username and password.
+            </div>
+            <div th:if="${param.logout}">
+              You have been logged out.
+            </div>
+          </div>
+        </form>
+      </div>
+      <div sec:authorize="isAuthenticated()">
+        <form class="form-horizontal" role="form" th:action="@{/logout}" method="post">
+          <div class="form-group">
+              Hello <span sec:authentication="name"/>, You have been logged in already.
+          </div>
+          <div class="form-group">
+            <input type="submit" class="btn btn-default" value="Logout"/>
+          </div>
+        </form>
       </div>
     </div>
-    <div class="form-group">
-      <label for="password" class="col-sm-2 control-label">Password</label>
-      <div class="col-sm-2">
-        <input type="password" class="form-control" id="password" name="password" placeholder="Please input password"/>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-2">
-        <div class="checkbox">
-          <label>
-            <input type="checkbox"/>Remember Me
-          </label>
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-2">
-        <input type="submit" class="btn btn-default" value="Logon"/>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-2" th:if="${param.error}">
-        Invalid username and password.
-      </div>
-      <div class="col-sm-offset-2 col-sm-2" th:if="${param.logout}">
-        You have been logged out.
-      </div>
-    </div>
-  </form>
+  </div>
 </div>
-<div sec:authorize="isAuthenticated()">
-  <form class="form-horizontal" role="form" th:action="@{/logout}" method="post">
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-2">
-        Hello <span sec:authentication="name"/>, You have been logged in already.
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-2">
-        <input type="submit" class="btn btn-default" value="Logout"/>
-      </div>
-    </div>
-  </form>
-</div>
-
 </body>
 </html>
