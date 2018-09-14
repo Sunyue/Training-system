@@ -44,7 +44,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .permitAll()
                 .and()
-            .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+            .rememberMe()
+                .key("uniqueAndSecret")
+                .tokenValiditySeconds(600)
+                .and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }
 
     @Override
