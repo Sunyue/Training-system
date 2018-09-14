@@ -2,55 +2,71 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>Course Chain</title>
-	<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"/>
-	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
-	<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css"/>
+	<link href="../static/css/chain.css" th:href="@{/css/chain.css}" rel="stylesheet"/>
 </head>
 <body>
-	<div class="container-fluid">
-		<div class="row-fluid">
-			<div class="span12">
-				<div id="header" style="height: 60px; width: 100%">
-					<h3 style="float:left">
-						Edit Course Chain
-					</h3>
-					<div style="margin-left:45%;margin-top:25px;float:left">
-						Hello <span sec:authentication="name"/>!
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<div class="container">
+			<a class="navbar-brand text-white">Edit Course Chain</a>
+			<a th:if="${#authorization.expression('isAuthenticated()')}" class="btn btn-primary" href="#" onclick="$('#form').submit();">Logout</a>
+			<form style="visibility: hidden; display:none" id="form" method="post" th:action="@{/logout}"></form>
+		</div>
+	</nav>
+
+	<!-- Page Content -->
+	<div class="container">
+
+		<!-- Page Heading -->
+		<div sec:authorize="hasRole('ROLE_A')">
+			<a class='btn btn-primary ' href="">Create new Chain</a>
+		</div>
+
+		<div class="row">
+			<div class="col-md-4 mb-4" th:each="chainView : ${chainViewList}">
+				<div class="card h-100">
+					<div class="card-body">
+						<h2 class="card-title" th:text="${chainView.chainName}"></h2>
+						<p class="card-text" th:each="courseName : ${chainView.courseNames}" th:text="${courseName}"></p>
 					</div>
-					<form class="form-horizontal" role="form" th:action="@{/logout}" method="post">
-						<div style="margin-left:20px; margin-top:15px;float:left">
-							<input type="submit" class="btn btn-default" value="Logout"/>
-						</div>
-					</form>
-				</div>
-				<div sec:authorize="hasRole('ROLE_A')">
-					<a class='btn btn-primary ' href="">Create new Chain</a>
-				</div>
-				<div class="row-fluid" style="width:100%; height:200px">
-					<div class="col-md-4" th:each="chainView : ${chainViewList}">
-						<h3 th:text="${chainView.chainName}" class="name">
-						</h3>
-						<div sec:authorize="hasRole('ROLE_A')">
-							<a class='btn btn-primary ' th:href="@{'/admin/course?chainId='+${chainView.chainId}}">Edit Chain</a>
-						</div>
-						<div sec:authorize="hasRole('ROLE_S')">
-							<a class='btn btn-primary ' th:href="@{'/student/course?chainId='+${chainView.chainId}}">Display Chain</a>
-						</div>
-						<li>
-							<div th:each="courseName : ${chainView.courseNames}">
-								<div th:text="${courseName}"></div>
-							</div>
-						</li>
+					<div class="card-footer" sec:authorize="hasRole('ROLE_A')">
+						<a th:href="@{'/admin/course?chainId='+${chainView.chainId}}" class="btn btn-primary">Edit Chain</a>
 					</div>
-				</div>
-				<div th:if="${totalPage > 1}" class="pagination"
-					 th:each="pageNumber : ${pageNumbers}">|
-					<a th:href="@{${#httpServletRequest.requestURI}(start=${pageNumber})}"
-					   th:text="${pageNumber}"
-					   th:class="${pageNumber==currentPage + 1} ? active"></a>
+					<div class="card-footer" sec:authorize="hasRole('ROLE_S')">
+						<a th:href="@{'/student/course?chainId='+${chainView.chainId}}" class="btn btn-primary">Display Chain</a>
+					</div>
 				</div>
 			</div>
 		</div>
+		<!-- /.row -->
+
+		<!-- Pagination -->
+		<ul class="pagination justify-content-center">
+			<li class="page-item">
+				<a class="page-link" href="#" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+					<span class="sr-only">Previous</span>
+				</a>
+			</li>
+			<li class="page-item" th:if="${totalPage > 1}" th:each="pageNumber : ${pageNumbers}">
+				<a class="page-link" th:href="@{${#httpServletRequest.requestURI}(start=${pageNumber})}"
+				  					 th:text="${pageNumber}"
+				   					 th:class="${pageNumber==currentPage + 1} ? active"></a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="#" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+					<span class="sr-only">Next</span>
+				</a>
+			</li>
+		</ul>
+
 	</div>
+
+
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 </body>
 </html>
