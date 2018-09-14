@@ -15,9 +15,9 @@
 </head>
 <body>
 	<!-- Navigation -->
-	<nav class="navbar navbar-light bg-light static-top">
+	<nav class="navbar navbar-light bg-dark static-top">
 		<div class="container">
-			<a class="navbar-brand">Administrator Function</a>
+			<a class="navbar-brand text-white">Administrator Function</a>
 			<a th:if="${#authorization.expression('isAuthenticated()')}" class="btn btn-primary" href="#" onclick="$('#form').submit();">Logout</a>
 			<form style="visibility: hidden; display:none" id="form" method="post" th:action="@{/logout}"></form>
 		</div>
