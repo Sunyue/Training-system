@@ -53,7 +53,6 @@ public class MaterialController {
         Material newMaterial = new Material();
         newMaterial .setFileType(fileType);
         newMaterial.setMaterialName(fileName);
-//        String courseIdStr = session.getAttribute("courseId").toString();
         newMaterial.setCourseId((Integer) session.getAttribute("courseId"));
         materialService.addMaterial(newMaterial);
     }
