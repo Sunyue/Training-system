@@ -34,7 +34,7 @@ public class StudentController extends MultistepController {
     @RequestMapping("/course")
     public String getCourse(Model model, @RequestParam(value="chainId", defaultValue="1") Integer chainId,
                             @RequestParam(value="start", defaultValue = "1") int start,
-                            @RequestParam(value="limit", defaultValue = "4") int limit){
+                            @RequestParam(value="limit", defaultValue = "6") int limit){
         log.info("Chain Id:" + chainId);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(chainService.checkUserChainRelation(auth.getName(), chainId) == true){

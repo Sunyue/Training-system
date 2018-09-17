@@ -37,7 +37,7 @@ public class AdminController extends MultistepController {
     @Override
     public String getCourse(Model model, @RequestParam(value="chainId", defaultValue="1") Integer chainId,
                             @RequestParam(value="start", defaultValue = "1") int start,
-                            @RequestParam(value="limit", defaultValue = "4") int limit){
+                            @RequestParam(value="limit", defaultValue = "6") int limit){
         log.info("Chain Id:" + chainId);
         PageInfo<Course> pageInfo = courseService.selectCourseByChain(chainId, start, limit);
         model.addAttribute("courseList", pageInfo.getList());
