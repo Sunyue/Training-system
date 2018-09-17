@@ -14,6 +14,11 @@ spring:
     jdbc:
       initialize-schema: embedded
       cleanup-cron: 0 * * * * *
+  http:
+    multipart:
+      maxFileSize: 524288000
+      maxRequestSize: 524288000
+
 
 server:
   session:

@@ -22,5 +22,15 @@ public class MaterialServiceImpl implements MaterialService{
 		// TODO Auto-generated method stub
 		return materialMapper.selectMaterialByCourse(courseId);
 	}
+	public Material selectMaterialById(Integer materialId)
+    {
+        return materialMapper.selectMaterialById(materialId);
+    }
+
+    @Override
+    public void addMaterial(Material material) {
+        materialMapper.addMaterial(material);
+    }
+
 
 }

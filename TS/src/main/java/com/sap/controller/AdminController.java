@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -47,9 +49,9 @@ public class AdminController extends MultistepController {
     }
 
     @RequestMapping("/material")
-    @Override
-    public String getMaterial(Model model, @RequestParam(value="courseId", defaultValue="1") Integer courseId){
+    public String getMaterial(Model model, @RequestParam(value="courseId", defaultValue="1") Integer courseId,HttpSession session){
         log.info("Course Id:" + courseId);
+        session.setAttribute("courseId", courseId);
         List<Material> materialList = materialService.selectMaterialByCourse(courseId);
         Course course = courseService.selectCourseById(courseId);
         model.addAttribute("courseName", course.getCourseName());
