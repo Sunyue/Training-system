@@ -1,6 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
 	<title>Course Chain</title>
 	<link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css"/>
@@ -19,13 +21,17 @@
 	<!-- Page Content -->
 	<div class="container">
 
-		<!-- Page Heading -->
-		<div sec:authorize="hasRole('ROLE_A')">
-			<a class='btn btn-primary ' href="">Create new Chain</a>
+		<div class="card text-white bg-secondary my-4 text-center">
+			<div class="card-body">
+				<p class="text-white m-0">
+					<a sec:authorize="hasRole('ROLE_A')" class='btn btn-primary' href="">Create new Chain</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To create the relationship between course and detailed items.
+				</p>
+			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-md-4 mb-4" th:each="chainView : ${chainViewList}">
+			<div class="col-md-4 mb-4 my-card" th:each="chainView : ${chainViewList}">
 				<div class="card h-100">
 					<div class="card-body">
 						<h2 class="card-title" th:text="${chainView.chainName}"></h2>
@@ -52,8 +58,7 @@
 			</li>
 			<li class="page-item" th:if="${totalPage > 1}" th:each="pageNumber : ${pageNumbers}">
 				<a class="page-link" th:href="@{${#httpServletRequest.requestURI}(start=${pageNumber})}"
-				  					 th:text="${pageNumber}"
-				   					 th:class="${pageNumber==currentPage + 1} ? active"></a>
+				  					 th:text="${pageNumber}"></a>
 			</li>
 			<li class="page-item">
 				<a class="page-link" href="#" aria-label="Next">

@@ -18,3 +18,11 @@ h6 {
   font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 700;
 }
+
+.my-card{
+height: 300px;
+}
+
+.pagination {
+  margin-bottom: 30px;
+}
