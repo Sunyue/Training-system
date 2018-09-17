@@ -40,6 +40,8 @@ public abstract class MultistepController {
         }
         model.addAttribute("prePage",pageInfo.getPrePage());
         model.addAttribute("nextPage",pageInfo.getNextPage());
+        model.addAttribute("firstPage",pageInfo.getFirstPage());
+        model.addAttribute("lastPage",pageInfo.getLastPage());
     }
 
     protected void prepareChainViewList(Model model, PageInfo<Chain> pageInfoChain){
