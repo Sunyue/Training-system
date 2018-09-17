@@ -2,6 +2,7 @@ package com.sap.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.sap.Constant.Consts;
+import com.sap.domain.BreadCrumb;
 import com.sap.domain.Chain;
 import com.sap.domain.ChainView;
 import com.sap.service.ChainService;
@@ -10,9 +11,11 @@ import com.sap.service.MaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -25,8 +28,8 @@ public abstract class MultistepController {
     @Autowired
     protected MaterialService materialService;
 
-    abstract String getChain(Model model, int start, int limit);
-    abstract String getCourse(Model model, Integer chainId, int start, int limit);
+    abstract String getChain(Model model, int start, int limit, HttpSession session);
+    abstract String getCourse(Model model, Integer chainId, int start, int limit, HttpSession session);
 //    abstract String getMaterial(Model model, Integer courseId);
 
     protected void setPageInfo(Model model, PageInfo pageInfo){
@@ -62,11 +65,6 @@ public abstract class MultistepController {
         model.addAttribute("nextPage",pageInfo.getNextPage());
         model.addAttribute("firstPage",pageInfo.getFirstPage());
         model.addAttribute("lastPage",pageInfo.getLastPage());
-
-
-
-
-
     }
 
     protected void prepareChainViewList(Model model, PageInfo<Chain> pageInfoChain){
@@ -79,5 +77,52 @@ public abstract class MultistepController {
             chainViewList.add(chainView);
         }
         model.addAttribute("chainViewList", chainViewList);
+    }
+
+    protected void setBreadCrumb(Model model, String pageName, HttpSession session){
+        Stack<BreadCrumb> stack = new Stack<>();
+        Boolean action = true;
+        if(session.getAttribute(Consts.breadCrumb) == null){
+            session.setAttribute(Consts.breadCrumb, stack);
+        }else{
+            stack = (Stack<BreadCrumb>)session.getAttribute(Consts.breadCrumb);
+        }
+
+        for(int i=0;i<stack.size();i++){
+            if(stack.get(i).getName().equals(pageName)){
+                action = false;
+            }
+        }
+
+        if(action == false){
+            while(!stack.isEmpty() && !stack.peek().getName().equals(pageName)){
+                stack.pop();
+            }
+        }else{
+            String url = null;
+            BreadCrumb breadCrumb = new BreadCrumb();
+
+            switch(pageName){
+                case "Home":
+                    url = Consts.adminHomePage;
+                    break;
+                case "Edit Course Chain":
+                    url = "/admin/";
+                    break;
+                case "Course Chain":
+                    url = "/admin/course";
+                    break;
+                case "Material":
+                    url = "/admin/material";
+                    break;
+                default:
+                    break;
+            }
+            breadCrumb.setName(pageName);
+            breadCrumb.setUrl(url);
+            stack.push(breadCrumb);
+        }
+        session.setAttribute(Consts.breadCrumb, stack);
+        model.addAttribute(Consts.breadCrumb, stack);
     }
 }

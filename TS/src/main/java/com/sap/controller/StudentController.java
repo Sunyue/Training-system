@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -22,7 +24,7 @@ public class StudentController extends MultistepController {
 
     @RequestMapping("/")
     public String getChain(Model model, @RequestParam(value="start", defaultValue = "1") int start,
-                           @RequestParam(value="limit", defaultValue = "3") int limit){
+                           @RequestParam(value="limit", defaultValue = "3") int limit, HttpSession session){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         log.info("User '"+ auth.getName() + "' with role '" + auth.getAuthorities() + "' is reaching to chain page");
         PageInfo<Chain> pageInfoChain = chainService.selectChainByUser(auth.getName(), start, limit);
@@ -34,7 +36,7 @@ public class StudentController extends MultistepController {
     @RequestMapping("/course")
     public String getCourse(Model model, @RequestParam(value="chainId", defaultValue="1") Integer chainId,
                             @RequestParam(value="start", defaultValue = "1") int start,
-                            @RequestParam(value="limit", defaultValue = "6") int limit){
+                            @RequestParam(value="limit", defaultValue = "6") int limit, HttpSession session){
         log.info("Chain Id:" + chainId);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(chainService.checkUserChainRelation(auth.getName(), chainId) == true){

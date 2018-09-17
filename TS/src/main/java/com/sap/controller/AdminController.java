@@ -29,17 +29,19 @@ public class AdminController extends MultistepController {
     private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
     @RequestMapping("/home")
-    public String goToHomePage(Model model){
+    public String goToHomePage(Model model, HttpSession session){
+        setBreadCrumb(model,"Home",session);
         return "admin";
     }
 
     @RequestMapping("/")
     @Override
     public String getChain(Model model, @RequestParam(value="start", defaultValue = "1") int start,
-                           @RequestParam(value="limit", defaultValue = "3") int limit) {
+                           @RequestParam(value="limit", defaultValue = "3") int limit, HttpSession session) {
         PageInfo<Chain> pageInfoChain = chainService.selectAllChain(start,limit);
         prepareChainViewList(model, pageInfoChain);
         setPageInfo(model,pageInfoChain);
+        setBreadCrumb(model,"Edit Course Chain",session);
         return "chain";
     }
 
@@ -47,12 +49,13 @@ public class AdminController extends MultistepController {
     @Override
     public String getCourse(Model model, @RequestParam(value="chainId", defaultValue="1") Integer chainId,
                             @RequestParam(value="start", defaultValue = "1") int start,
-                            @RequestParam(value="limit", defaultValue = "6") int limit){
+                            @RequestParam(value="limit", defaultValue = "6") int limit, HttpSession session){
         log.info("Chain Id:" + chainId);
         PageInfo<Course> pageInfo = courseService.selectCourseByChain(chainId, start, limit);
         model.addAttribute("courseList", pageInfo.getList());
         model.addAttribute("chainId",chainId);
         setPageInfo(model,pageInfo);
+        setBreadCrumb(model,"Course Chain",session);
         return "course";
     }
 
@@ -64,6 +67,7 @@ public class AdminController extends MultistepController {
         Course course = courseService.selectCourseById(courseId);
         model.addAttribute("courseName", course.getCourseName());
         model.addAttribute("materialList", materialList);
+        setBreadCrumb(model,"Material",session);
         return "course_detail";
     }
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
