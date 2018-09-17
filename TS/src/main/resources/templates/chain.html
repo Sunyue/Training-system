@@ -50,24 +50,24 @@
 
 		<!-- Pagination -->
 		<ul class="pagination justify-content-center">
-			<li class="page-item" th:if="${prePage}>0">
+			<li class="page-item"  th:classappend="${prePage} > 0 ? '' : disabled">
 				<a class="page-link" th:href="@{${#httpServletRequest.requestURI}(start=${prePage})}" aria-label="Previous">
 					<span aria-hidden="true">&laquo;</span>
 					<span class="sr-only">Previous</span>
 				</a>
 			</li>
-			<li class="page-item" th:if="${totalPage > 1}" th:each="pageNumber : ${pageNumbers}">
+			<li class="page-item" th:if="${totalPage > 1}" th:each="pageNumber : ${pageNumbers}"
+				th:classappend="${pageNumber} == ${currentPage} ? 'active' : ''">
 				<a class="page-link" th:href="@{${#httpServletRequest.requestURI}(start=${pageNumber})}"
 				  					 th:text="${pageNumber}"></a>
 			</li>
-			<li class="page-item" th:if="${nextPage}>0">
+			<li class="page-item" th:classappend="${nextPage} > 0 ? '' : disabled">
 				<a class="page-link" th:href="@{${#httpServletRequest.requestURI}(start=${nextPage})}" aria-label="Next">
 					<span aria-hidden="true">&raquo;</span>
 					<span class="sr-only">Next</span>
 				</a>
 			</li>
 		</ul>
-
 	</div>
 
 

@@ -2,7 +2,7 @@ INSERT INTO `courseinfo` VALUES (1,'BC400','ABAP Workbench Foundation',1,0),(2,'
 
 INSERT INTO `chaincourse` VALUES (1,1,1),(1,2,2),(1,3,3),(1,4,4),(1,5,5),(1,6,6),(2,7,1),(2,8,2),(2,9,3),(2,10,4),(3,11,1),(3,12,2),(3,13,3),(3,14,4),(4,15,1),(4,16,2),(4,17,3),(4,18,4),(5,19,1),(5,20,2),(5,21,3);
 
-INSERT INTO `chaininfo` VALUES (1,'ABAP',1),(2,'JAVA',1),(3,'Database',1),(4,'SLT',1),(5,'Python',1);
+INSERT INTO `chaininfo` VALUES (1,'ABAP',1),(2,'JAVA',1),(3,'Database',1),(4,'SLT',1),(5,'Python',1),(6,'Go',1),(7,'Kotlin',1),(8,'MC',1),(9,'Fiori',1),(10,'Spring',1),(11,'MyBatis',1),(12,'Docker',1),(13,'Bootstrap',1);
 
 INSERT INTO `userinfo` VALUES ('admin','password','A'),('user','password','S');
 
