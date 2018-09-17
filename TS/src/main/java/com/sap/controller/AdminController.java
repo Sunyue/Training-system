@@ -1,6 +1,7 @@
 package com.sap.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.sap.Constant.Consts;
 import com.sap.domain.Chain;
 import com.sap.domain.Course;
 import com.sap.domain.Material;
@@ -93,5 +94,26 @@ public class AdminController extends MultistepController {
         newMaterial.setCourseId((Integer) session.getAttribute("courseId"));
         materialService.addMaterial(newMaterial);
         return "redirect:/course_detail?courseId=" + newMaterial.getCourseId();
+    }
+
+    protected String getBreadScrumbUrl(String pageName){
+        String url = null;
+        switch(pageName){
+            case "Home":
+                url = Consts.adminHomePage;
+                break;
+            case "Edit Course Chain":
+                url = "/admin/";
+                break;
+            case "Course Chain":
+                url = "/admin/course";
+                break;
+            case "Material":
+                url = "/admin/material";
+                break;
+            default:
+                break;
+        }
+        return url;
     }
 }

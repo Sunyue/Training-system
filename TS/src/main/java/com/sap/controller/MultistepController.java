@@ -30,6 +30,7 @@ public abstract class MultistepController {
 
     abstract String getChain(Model model, int start, int limit, HttpSession session);
     abstract String getCourse(Model model, Integer chainId, int start, int limit, HttpSession session);
+    abstract String getBreadScrumbUrl(String pageName);
 //    abstract String getMaterial(Model model, Integer courseId);
 
     protected void setPageInfo(Model model, PageInfo pageInfo){
@@ -101,23 +102,7 @@ public abstract class MultistepController {
         }else{
             String url = null;
             BreadCrumb breadCrumb = new BreadCrumb();
-
-            switch(pageName){
-                case "Home":
-                    url = Consts.adminHomePage;
-                    break;
-                case "Edit Course Chain":
-                    url = "/admin/";
-                    break;
-                case "Course Chain":
-                    url = "/admin/course";
-                    break;
-                case "Material":
-                    url = "/admin/material";
-                    break;
-                default:
-                    break;
-            }
+            url = getBreadScrumbUrl(pageName);
             breadCrumb.setName(pageName);
             breadCrumb.setUrl(url);
             stack.push(breadCrumb);

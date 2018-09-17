@@ -1,6 +1,7 @@
 package com.sap.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.sap.Constant.Consts;
 import com.sap.domain.Chain;
 import com.sap.domain.Course;
 import com.sap.domain.Material;
@@ -30,6 +31,7 @@ public class StudentController extends MultistepController {
         PageInfo<Chain> pageInfoChain = chainService.selectChainByUser(auth.getName(), start, limit);
         prepareChainViewList(model, pageInfoChain);
         setPageInfo(model,pageInfoChain);
+        setBreadCrumb(model,"Display Course Chain",session);
         return "chain";
     }
 
@@ -44,16 +46,37 @@ public class StudentController extends MultistepController {
             model.addAttribute("courseList", pageInfo.getList());
             model.addAttribute("chainId",chainId);
             setPageInfo(model,pageInfo);
+            setBreadCrumb(model,"Course Chain",session);
         }
         return "course";
     }
 
     @RequestMapping("/material")
-    public String getMaterial(Model model, @RequestParam(value="courseId", defaultValue="1") Integer courseId){
+    public String getMaterial(Model model, @RequestParam(value="courseId", defaultValue="1") Integer courseId,
+                              HttpSession session){
         log.info("Course Id:" + courseId);
         List<Material> materialList = materialService.selectMaterialByCourse(courseId);
         model.addAttribute("materialList", materialList);
+        setBreadCrumb(model,"Material",session);
         return "course_detail";
+    }
+
+    protected String getBreadScrumbUrl(String pageName){
+        String url = null;
+        switch(pageName){
+            case "Display Course Chain":
+                url = "/student/";
+                break;
+            case "Course Chain":
+                url = "/student/course";
+                break;
+            case "Material":
+                url = "/student/material";
+                break;
+            default:
+                break;
+        }
+        return url;
     }
 
 }
