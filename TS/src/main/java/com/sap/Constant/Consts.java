@@ -11,4 +11,6 @@ public final class Consts {
     public static final String adminRole = "A";
 
     public static final int defaultLimit = 4;
+
+    public static final String breadCrumb = "BreadCrumb";
 }

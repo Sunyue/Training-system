@@ -18,6 +18,14 @@
 		</div>
 	</nav>
 
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item" th:each="item : ${BreadCrumb}">
+				<a th:href="${item.url}" th:text="${item.name}"></a>
+			</li>
+		</ol>
+	</nav>
+
 	<!-- Page Content -->
 	<div class="container">
 
