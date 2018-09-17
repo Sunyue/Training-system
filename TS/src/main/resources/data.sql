@@ -8,4 +8,4 @@ INSERT INTO `userinfo` VALUES ('admin','password','A'),('user','password','S');
 
 INSERT INTO `userchain` VALUES ('user',1,0), ('user',2,0);
 
-INSERT INTO `materialinfo` VALUES (1, 'Taking ABAP to SAP HANA', 1, 3, 'C:/Users/I345785/Test Material Folder/Taking ABAP to SAP HANA.doc','.doc',2,0,0);
+INSERT INTO `materialinfo` VALUES (1, 'Taking ABAP to SAP HANA', 1, 3, 'C:/Users/I345785/Test Material Folder/Taking ABAP to SAP HANA.doc
