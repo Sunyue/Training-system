@@ -53,3 +53,5 @@ CREATE TABLE `userchain` (
   `status`       int(11) DEFAULT 0,
   PRIMARY KEY (`username`,`chainid`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+alter table materialinfo add materialid int auto_increment primary key;

@@ -9,9 +9,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -57,5 +65,29 @@ public class AdminController extends MultistepController {
         model.addAttribute("courseName", course.getCourseName());
         model.addAttribute("materialList", materialList);
         return "course_detail";
+    }
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public String uploadFile(HttpServletRequest req, HttpSession session, MultipartHttpServletRequest multiReq) throws IOException {
+
+
+        MultipartFile file = multiReq.getFile("file");
+        String fileName = file.getOriginalFilename();
+        FileOutputStream fos = new FileOutputStream(new File("Documents://"+fileName));
+        FileInputStream fs = (FileInputStream) file.getInputStream();
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while ((len = fs.read(buffer)) != -1) {
+            fos.write(buffer, 0, len);
+        }
+        fos.close();
+        fs.close();
+
+        String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+        Material newMaterial = new Material();
+        newMaterial .setFileType(fileType);
+        newMaterial.setMaterialName(fileName);
+        newMaterial.setCourseId((Integer) session.getAttribute("courseId"));
+        materialService.addMaterial(newMaterial);
+        return "redirect:/course_detail?courseId=" + newMaterial.getCourseId();
     }
 }
