@@ -1,13 +1,7 @@
 body {
-  padding-top: 54px;
   font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-@media (min-width: 992px) {
-  body {
-    padding-top: 56px;
-  }
-}
 
 h1,
 h2,

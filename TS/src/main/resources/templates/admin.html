@@ -15,14 +15,7 @@
 </head>
 <body>
 	<!-- Navigation -->
-	<nav class="navbar navbar-light bg-dark static-top">
-		<div class="container">
-			<a class="navbar-brand text-white">Administrator Function</a>
-			<a th:if="${#authorization.expression('isAuthenticated()')}" class="btn btn-primary" href="#" onclick="$('#form').submit();">Logout</a>
-			<form style="visibility: hidden; display:none" id="form" method="post" th:action="@{/logout}"></form>
-		</div>
-	</nav>
-
+	<div th:replace="general :: navigation"></div>
 	<!-- Masthead -->
 	<header class="masthead text-white text-center">
 		<div class="overlay"></div>

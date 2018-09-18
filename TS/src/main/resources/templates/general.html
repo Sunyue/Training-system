@@ -4,8 +4,16 @@
     <meta charset="UTF-8" />
 </head>
 <body>
-<div th:fragment="breadcrumb">
-    <nav aria-label="breadcrumb">
+
+    <nav class="navbar navbar-light bg-dark static-top" th:fragment="navigation">
+        <div class="container">
+            <a class="navbar-brand text-white">Administrator Function</a>
+            <a th:if="${#authorization.expression('isAuthenticated()')}" class="btn btn-primary" href="#" onclick="$('#form').submit();">Logout</a>
+            <form style="visibility: hidden; display:none" id="form" method="post" th:action="@{/logout}"></form>
+        </div>
+    </nav>
+
+    <nav aria-label="breadcrumb" th:fragment="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item" th:each="item : ${BreadCrumb}">
                 <a th:href="${item.url}" th:text="${item.name}" th:if="${#httpServletRequest.requestURI} != ${item.url}"></a>
@@ -13,7 +21,5 @@
             </li>
         </ol>
     </nav>
-</div>
-
 </body>
 </html>
