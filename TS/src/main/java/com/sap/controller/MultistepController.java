@@ -10,7 +10,6 @@ import com.sap.service.CourseService;
 import com.sap.service.MaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -31,7 +30,7 @@ public abstract class MultistepController {
     abstract String getChain(Model model, int start, int limit, HttpSession session);
     abstract String getCourse(Model model, Integer chainId, int start, int limit, HttpSession session);
     abstract String getBreadScrumbUrl(String pageName);
-//    abstract String getMaterial(Model model, Integer courseId);
+    abstract String getMaterial(Model model, Integer courseId, HttpSession session);
 
     protected void setPageInfo(Model model, PageInfo pageInfo){
         model.addAttribute("currentPage", pageInfo.getPageNum());

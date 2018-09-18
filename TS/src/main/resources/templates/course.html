@@ -39,7 +39,8 @@
                         <td th:text="${course.courseName}" class="name"></td>
                         <td th:text="${course.description}" class="description"></td>
                         <td class="operate">
-                            <a class='btn btn-primary ' th:href="@{'/admin/material?courseId='+${course.courseId}}">Edit</a>
+                            <a class='btn btn-primary' sec:authorize="hasRole('ROLE_A')" th:href="@{'/admin/material?courseId='+${course.courseId}}">Edit</a>
+                            <a class='btn btn-primary' sec:authorize="hasRole('ROLE_S')" th:href="@{'/student/material?courseId='+${course.courseId}}">Display</a>
                         </td>
                     </tr>
                 </tbody>
