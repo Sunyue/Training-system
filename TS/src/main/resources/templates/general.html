@@ -21,5 +21,37 @@
             </li>
         </ol>
     </nav>
+
+    <ul class="pagination justify-content-center" th:if="${totalPage > 1}" th:fragment="pagination">
+        <li class="page-item"  th:classappend="${firstPage} == ${currentPage} ? disabled : ''">
+            <a class="page-link" th:href="@{${#httpServletRequest.requestURI}(start=${firstPage})}" th:text="First"></a>
+        </li>
+        <li class="page-item disabled" th:if="${trimHead} == 1">
+            <a class="page-link" href="#" th:text="..."></a>
+        </li>
+        <li class="page-item"  th:classappend="${prePage} > 0 ? '' : disabled">
+            <a class="page-link" th:href="@{${#httpServletRequest.requestURI}(start=${prePage})}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        <li class="page-item" th:each="pageNumber : ${pageNumbers}"
+            th:classappend="${pageNumber} == ${currentPage} ? 'active' : ''">
+            <a class="page-link" th:href="@{${#httpServletRequest.requestURI}(start=${pageNumber})}"
+               th:text="${pageNumber}"></a>
+        </li>
+        <li class="page-item disabled" th:if="${trimEnd} == 1">
+            <a class="page-link" href="#" th:text="..."></a>
+        </li>
+        <li class="page-item" th:classappend="${nextPage} > 0 ? '' : disabled">
+            <a class="page-link" th:href="@{${#httpServletRequest.requestURI}(start=${nextPage})}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+        <li class="page-item"  th:classappend="${lastPage} == ${currentPage} ? disabled : ''">
+            <a class="page-link" th:href="@{${#httpServletRequest.requestURI}(start=${lastPage})}" th:text="Last"></a>
+        </li>
+    </ul>
 </body>
 </html>
