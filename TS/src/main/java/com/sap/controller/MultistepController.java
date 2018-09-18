@@ -10,6 +10,8 @@ import com.sap.service.CourseService;
 import com.sap.service.MaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,10 +29,9 @@ public abstract class MultistepController {
     @Autowired
     protected MaterialService materialService;
 
-    abstract String getChain(Model model, int start, int limit, HttpSession session);
-    abstract String getCourse(Model model, Integer chainId, int start, int limit, HttpSession session);
-    abstract String getBreadScrumbUrl(String pageName);
-    abstract String getMaterial(Model model, Integer courseId, HttpSession session);
+    abstract String getChain(Model model, int start, int limit, HttpSession session, HttpServletRequest request);
+    abstract String getCourse(Model model, Integer chainId, int start, int limit, HttpSession session, HttpServletRequest request);
+    abstract String getMaterial(Model model, Integer courseId, HttpSession session, HttpServletRequest request);
 
     protected void setPageInfo(Model model, PageInfo pageInfo){
         model.addAttribute("currentPage", pageInfo.getPageNum());
@@ -79,7 +80,7 @@ public abstract class MultistepController {
         model.addAttribute("chainViewList", chainViewList);
     }
 
-    protected void setBreadCrumb(Model model, String pageName, HttpSession session){
+    protected void setBreadCrumb(Model model, String pageName, HttpSession session, String url){
         Stack<BreadCrumb> stack = new Stack<>();
         Boolean action = true;
         if(session.getAttribute(Consts.breadCrumb) == null){
@@ -89,19 +90,18 @@ public abstract class MultistepController {
         }
 
         for(int i=0;i<stack.size();i++){
-            if(stack.get(i).getName().equals(pageName)){
+            if(stack.get(i).getUrl().equals(url)){
                 action = false;
+                break;
             }
         }
 
         if(action == false){
-            while(!stack.isEmpty() && !stack.peek().getName().equals(pageName)){
+            while(!stack.isEmpty() && !stack.peek().getUrl().equals(url)){
                 stack.pop();
             }
         }else{
-            String url = null;
             BreadCrumb breadCrumb = new BreadCrumb();
-            url = getBreadScrumbUrl(pageName);
             breadCrumb.setName(pageName);
             breadCrumb.setUrl(url);
             stack.push(breadCrumb);

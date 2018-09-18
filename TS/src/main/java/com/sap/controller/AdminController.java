@@ -7,6 +7,7 @@ import com.sap.domain.Course;
 import com.sap.domain.Material;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,19 +30,20 @@ public class AdminController extends MultistepController {
     private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
     @RequestMapping("/home")
-    public String goToHomePage(Model model, HttpSession session){
-        setBreadCrumb(model,"Home",session);
+    public String goToHomePage(Model model, HttpSession session, HttpServletRequest request){
+        setBreadCrumb(model,"Home",session, request.getRequestURI());
         return "admin";
     }
 
     @RequestMapping("/")
     @Override
     public String getChain(Model model, @RequestParam(value="start", defaultValue = "1") int start,
-                           @RequestParam(value="limit", defaultValue = "3") int limit, HttpSession session) {
+                           @RequestParam(value="limit", defaultValue = "3") int limit, HttpSession session,
+                           HttpServletRequest request) {
         PageInfo<Chain> pageInfoChain = chainService.selectAllChain(start,limit);
         prepareChainViewList(model, pageInfoChain);
         setPageInfo(model,pageInfoChain);
-        setBreadCrumb(model,"Edit Course Chain",session);
+        setBreadCrumb(model,"Edit Course Chain",session, request.getRequestURI());
         return "chain";
     }
 
@@ -49,25 +51,27 @@ public class AdminController extends MultistepController {
     @Override
     public String getCourse(Model model, @RequestParam(value="chainId", defaultValue="1") Integer chainId,
                             @RequestParam(value="start", defaultValue = "1") int start,
-                            @RequestParam(value="limit", defaultValue = "6") int limit, HttpSession session){
+                            @RequestParam(value="limit", defaultValue = "6") int limit, HttpSession session,
+                            HttpServletRequest request){
         log.info("Chain Id:" + chainId);
         PageInfo<Course> pageInfo = courseService.selectCourseByChain(chainId, start, limit);
         model.addAttribute("courseList", pageInfo.getList());
         model.addAttribute("chainId",chainId);
         setPageInfo(model,pageInfo);
-        setBreadCrumb(model,"Course Chain",session);
+        setBreadCrumb(model,"Course Chain",session,request.getRequestURI());
         return "course";
     }
 
     @RequestMapping("/material")
-    public String getMaterial(Model model, @RequestParam(value="courseId", defaultValue="1") Integer courseId,HttpSession session){
+    public String getMaterial(Model model, @RequestParam(value="courseId", defaultValue="1") Integer courseId,
+                              HttpSession session, HttpServletRequest request){
         log.info("Course Id:" + courseId);
         session.setAttribute("courseId", courseId);
         List<Material> materialList = materialService.selectMaterialByCourse(courseId);
         Course course = courseService.selectCourseById(courseId);
         model.addAttribute("courseName", course.getCourseName());
         model.addAttribute("materialList", materialList);
-        setBreadCrumb(model,"Material",session);
+        setBreadCrumb(model,"Material", session, request.getRequestURI());
         return "course_detail";
     }
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
@@ -93,26 +97,5 @@ public class AdminController extends MultistepController {
         newMaterial.setCourseId((Integer) session.getAttribute("courseId"));
         materialService.addMaterial(newMaterial);
         return "redirect:/course_detail?courseId=" + newMaterial.getCourseId();
-    }
-
-    protected String getBreadScrumbUrl(String pageName){
-        String url = null;
-        switch(pageName){
-            case "Home":
-                url = Consts.adminHomePage;
-                break;
-            case "Edit Course Chain":
-                url = "/admin/";
-                break;
-            case "Course Chain":
-                url = "/admin/course";
-                break;
-            case "Material":
-                url = "/admin/material";
-                break;
-            default:
-                break;
-        }
-        return url;
     }
 }
