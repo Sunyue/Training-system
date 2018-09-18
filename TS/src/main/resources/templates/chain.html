@@ -21,7 +21,8 @@
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item" th:each="item : ${BreadCrumb}">
-				<a th:href="${item.url}" th:text="${item.name}"></a>
+				<a th:href="${item.url}" th:text="${item.name}" th:if="${#httpServletRequest.requestURI} != ${item.url}"></a>
+				<a th:text="${item.name}" th:if="${#httpServletRequest.requestURI} == ${item.url}"></a>
 			</li>
 		</ol>
 	</nav>
