@@ -17,15 +17,8 @@
 			<form style="visibility: hidden; display:none" id="form" method="post" th:action="@{/logout}"></form>
 		</div>
 	</nav>
-
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item" th:each="item : ${BreadCrumb}">
-				<a th:href="${item.url}" th:text="${item.name}" th:if="${#httpServletRequest.requestURI} != ${item.url}"></a>
-				<a th:text="${item.name}" th:if="${#httpServletRequest.requestURI} == ${item.url}"></a>
-			</li>
-		</ol>
-	</nav>
+	<!-- Include Breadcrumb -->
+	<div th:replace="general :: breadcrumb"></div>
 
 	<!-- Page Content -->
 	<div class="container">
