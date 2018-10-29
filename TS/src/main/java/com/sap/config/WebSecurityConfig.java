@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .rememberMe()
                 .key("uniqueAndSecret")
-                .tokenValiditySeconds(6000)
+                .tokenValiditySeconds(28800)
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
     }

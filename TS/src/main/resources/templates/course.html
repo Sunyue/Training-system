@@ -18,6 +18,7 @@
                     <p class="text-white m-0">
                         <a  class='btn btn-primary' href=""
                            data-toggle="modal" data-target="#createcourse">Create new course</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <a  class='btn btn-primary' href=""
                             data-toggle="modal" data-target="#addcourses">Add existing courses</a>
                     </p>
@@ -92,7 +93,7 @@
                         <div class="modal-body pre-scrollable">
                             <div class="form-check" th:each="item : ${remainCourses}">
                                 <input type="checkbox" class="form-check-input" name="courseIds"
-                                       th:value="${item.courseId}" th:text="${item.courseName} + '---' + ${item.description}"/>
+                                       th:value="${item.courseId}" th:text="${item.courseName} + '   ---   ' + ${item.description}"/>
                             </div>
                             <input type="hidden" name = "chainId" id ="chainId" th:value="${chainId}"/>
                         </div>
