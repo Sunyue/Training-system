@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -46,12 +48,19 @@ public class AdminController extends MultistepController {
     }
 
     @RequestMapping(value="/newchain", method = RequestMethod.POST)
-    public String newChain(Model model, @RequestParam(value ="chainName") String chainName){
+    public String newChain(RedirectAttributes redirectAttributes, @RequestParam(value ="chainName") String chainName){
+        if(chainName.equals("")){
+            redirectAttributes.addFlashAttribute("error","Chain title should not be empty");
+            return "redirect:/admin/";
+        }
+
         if (chainService.createChain(chainName) == 1){
             Integer chainId = chainService.getChainIdByName(chainName);
             return "redirect:/admin/course?chainId="+chainId;
+        }else{
+            redirectAttributes.addFlashAttribute("error","Failed to create new chain, chain name '"+chainName+"' already exist");
+            return "redirect:/admin/";
         }
-        return "failed";
     }
 
     @RequestMapping("/course")

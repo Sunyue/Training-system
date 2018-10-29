@@ -43,7 +43,12 @@ public class ChainServiceImpl implements ChainService{
 
     @Override
     public Integer createChain(String chainName){
-        return chainMapper.createChain(chainName);
+        try{
+            return chainMapper.createChain(chainName);
+        }catch (Exception e){
+            //failed
+            return 0;
+        }
     }
 
     @Override

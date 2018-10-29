@@ -19,7 +19,7 @@ CREATE TABLE `chaincourse` (
 DROP TABLE IF EXISTS `chaininfo`;
 CREATE TABLE `chaininfo` (
   `chainid` int(11) NOT NULL auto_increment,
-  `chainname` varchar(40) DEFAULT NULL UNIQUE,
+  `chainname` varchar(40) NOT NULL UNIQUE,
   `isdefined` int(11) DEFAULT NULL,
   PRIMARY KEY (`chainid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
