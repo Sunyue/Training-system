@@ -78,6 +78,17 @@ public class AdminController extends MultistepController {
         return "course";
     }
 
+    @RequestMapping(value="/newcourse", method = RequestMethod.POST)
+    public String newCourse(Model model, @RequestParam(value= "chainId") Integer chainId,
+                            @RequestParam(value ="courseName") String courseName,
+                            @RequestParam(value ="courseDescription") String courseDescription){
+        if (courseService.createCourse(chainId, courseName, courseDescription) == 1){
+            Integer courseId = courseService.getCourseIdByName(courseName);
+            return "redirect:/admin/material?courseId="+courseId;
+        }
+        return "failed";
+    }
+
     @RequestMapping("/material")
     public String getMaterial(Model model, @RequestParam(value="courseId", defaultValue="1") Integer courseId,
                               HttpSession session, HttpServletRequest request){
