@@ -20,6 +20,7 @@
         <th>Number</th>
         <th>Description</th>
         <th>Download</th>
+
     </tr>
     </thead>
     <tbody>
@@ -27,8 +28,9 @@
         <td th:text="${iterStat.index }+1" class="name"></td>
         <td th:text="${material.materialName}" class="description"></td>
         <td class="operate">
-            <button type="submit" class="btn btn-primary"  th:href="@{'/admin/material/download?material.materialName='+${material.materialName}}">Download</button>
+            <a type="submit" class="btn btn-primary"  th:href="@{'/admin/download?materialId='+${material.materialId}}">Download</a>
         </td>
+
     </tr>
 
     </tbody>
@@ -37,6 +39,7 @@
 
 <p>
 <form class="form-inline" method="POST" enctype="multipart/form-data" th:action="@{/admin/upload}">
+    <!--<form class="form-inline" method="POST" enctype="multipart/form-data" action="/admin/upload">-->
 <label>Add New Material</label>
     <div class="form-group">
     <label class="sr-only" for="inputfile">Input File</label>
