@@ -18,10 +18,10 @@
 	<!-- Page Content -->
 	<div class="container">
 
-		<div class="card text-white bg-secondary my-4 text-center">
+		<div class="card text-white bg-secondary my-4 text-center" sec:authorize="hasRole('ROLE_A')" >
 			<div class="card-body">
 				<p class="text-white m-0">
-					<a sec:authorize="hasRole('ROLE_A')" class='btn btn-primary' href=""
+					<a class='btn btn-primary' href=""
 					   data-toggle="modal" data-target="#createchain">Create new Chain</a>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To create the relationship between course and detailed items.
 				</p>
@@ -57,7 +57,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Create new chain</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>

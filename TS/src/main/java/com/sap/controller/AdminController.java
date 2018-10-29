@@ -79,14 +79,21 @@ public class AdminController extends MultistepController {
     }
 
     @RequestMapping(value="/newcourse", method = RequestMethod.POST)
-    public String newCourse(Model model, @RequestParam(value= "chainId") Integer chainId,
+    public String newCourse(RedirectAttributes redirectAttributes, Model model, @RequestParam(value= "chainId") Integer chainId,
                             @RequestParam(value ="courseName") String courseName,
                             @RequestParam(value ="courseDescription") String courseDescription){
+        if(courseName.equals("")){
+            redirectAttributes.addFlashAttribute("error","Course name should not be empty");
+            return "redirect:/admin/course?chainId="+chainId;
+        }
+
         if (courseService.createCourse(chainId, courseName, courseDescription) == 1){
             Integer courseId = courseService.getCourseIdByName(courseName);
             return "redirect:/admin/material?courseId="+courseId;
+        }else{
+            redirectAttributes.addFlashAttribute("error","Failed to create new course, course name '"+courseName+"' already exist");
+            return "redirect:/admin/course?chainId="+chainId;
         }
-        return "failed";
     }
 
     @RequestMapping("/material")

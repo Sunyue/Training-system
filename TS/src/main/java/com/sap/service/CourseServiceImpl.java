@@ -40,21 +40,24 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public Integer createCourse(Integer chainId, String courseName, String courseDescription){
         Integer result = 0;
+        try{
+            if(courseMapper.createCourse(courseName, courseDescription) == 1) {
+                int newCourseId = courseMapper.getCourseIdByName(courseName);
 
-        if(courseMapper.createCourse(courseName, courseDescription) == 1) {
-            int newCourseId = courseMapper.getCourseIdByName(courseName);
+                int newOrder = 0;
+                try {
+                    newOrder = courseMapper.getMaxSeqOrderbyChainId(chainId) + 1;
+                }
+                catch(Exception e) {
+                    newOrder = 1;
+                }
 
-            int newOrder = 0;
-            try {
-                newOrder = courseMapper.getMaxSeqOrderbyChainId(chainId) + 1;
+                if(courseMapper.insertcourseRelation(chainId, newCourseId, newOrder) == 1) {
+                    result = 1;
+                }
             }
-            catch(Exception e) {
-                newOrder = 1;
-            }
-
-            if(courseMapper.insertcourseRelation(chainId, newCourseId, newOrder) == 1) {
-                result = 1;
-            }
+        }catch (Exception e){
+            return 0;
         }
         return result;
     }

@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS `courseinfo`;
 CREATE TABLE `courseinfo` (
-  `courseid` int(11) NOT NULL,
-  `coursename` varchar(20) DEFAULT NULL,
+  `courseid` int(11) NOT NULL auto_increment,
+  `coursename` varchar(20) NOT NULL UNIQUE,
   `description` varchar(500) DEFAULT NULL,
   `courselayer` int(11) DEFAULT NULL,
   `parentcid` int(11) DEFAULT NULL,

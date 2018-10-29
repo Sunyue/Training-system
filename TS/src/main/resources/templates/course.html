@@ -13,6 +13,17 @@
         <div th:replace="general :: breadcrumb"></div>
 
         <div class="container" style="margin-top:20px;">
+            <div class="card text-white bg-secondary my-4 text-center" sec:authorize="hasRole('ROLE_A')">
+                <div class="card-body">
+                    <p class="text-white m-0">
+                        <a  class='btn btn-primary' href=""
+                           data-toggle="modal" data-target="#createcourse">Add new course</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="alert alert-warning" th:if="${error != null}" th:text = "${error}"/>
+
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -36,6 +47,36 @@
             <!-- Pagination -->
             <div th:replace="general :: pagination"></div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="createcourse" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create course</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="newChainForm" class="form-horizontal" role="form" th:action="@{/admin/newcourse}" method="post">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="courseName" name="courseName" placeholder="Course name"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="courseDescription" name="courseDescription" placeholder="Course description"/>
+                            </div>
+                            <input type="hidden" name = "chainId" id ="chainId" th:value="${chainId}"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
         <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
     </body>
