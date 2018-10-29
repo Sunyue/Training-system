@@ -98,7 +98,7 @@ public class AdminController extends MultistepController {
 
     @RequestMapping(value="/addcourselist", method = RequestMethod.POST)
     public String addNewcourses(RedirectAttributes redirectAttributes, Model model,
-                                @ModelAttribute CourseWrapper courseWrapper,
+                                @ModelAttribute(value="courseIds") CourseWrapper courseWrapper,
                                 @RequestParam(value= "chainId") Integer chainId) {
 
         List<Integer> courseIds = courseWrapper.getCourseIds();
