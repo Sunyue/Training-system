@@ -47,6 +47,15 @@ public class AdminController extends MultistepController {
         return "chain";
     }
 
+    @RequestMapping(value="/newchain", method = RequestMethod.POST)
+    public String newChain(Model model, @RequestParam(value ="chainName") String chainName){
+        if (chainService.createChain(chainName) == 1){
+            Integer chainId = chainService.getChainIdByName(chainName);
+            return "redirect:/admin/course?chainId="+chainId;
+        }
+        return "failed";
+    }
+
     @RequestMapping("/course")
     @Override
     public String getCourse(Model model, @RequestParam(value="chainId", defaultValue="1") Integer chainId,
