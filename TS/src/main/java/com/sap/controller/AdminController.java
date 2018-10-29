@@ -73,6 +73,7 @@ public class AdminController extends MultistepController {
         PageInfo<Course> pageInfo = courseService.selectCourseByChain(chainId, start, limit);
         model.addAttribute("courseList", pageInfo.getList());
         model.addAttribute("chainId",chainId);
+        model.addAttribute("remainCourses", courseService.getCourseOutsideChain(chainId));
         setPageInfo(model,pageInfo);
         setBreadCrumb(model,"Course Chain",session,request.getRequestURI());
         return "course";

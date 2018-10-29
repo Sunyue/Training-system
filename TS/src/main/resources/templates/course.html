@@ -17,7 +17,9 @@
                 <div class="card-body">
                     <p class="text-white m-0">
                         <a  class='btn btn-primary' href=""
-                           data-toggle="modal" data-target="#createcourse">Add new course</a>
+                           data-toggle="modal" data-target="#createcourse">Create new course</a>
+                        <a  class='btn btn-primary' href=""
+                            data-toggle="modal" data-target="#addcourses">Add existing courses</a>
                     </p>
                 </div>
             </div>
@@ -58,13 +60,39 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="newChainForm" class="form-horizontal" role="form" th:action="@{/admin/newcourse}" method="post">
+                    <form id="newCourseForm" class="form-horizontal" role="form" th:action="@{/admin/newcourse}" method="post">
                         <div class="modal-body">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="courseName" name="courseName" placeholder="Course name"/>
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" id="courseDescription" name="courseDescription" placeholder="Course description"/>
+                            </div>
+                            <input type="hidden" name = "chainId" id ="chainId" th:value="${chainId}"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="addcourses" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel2">Add courses</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="addCoursesForm" class="form-horizontal" role="form" th:action="@{/admin/addcourselist}" method="post">
+                        <div class="modal-body pre-scrollable">
+                            <div class="form-check" th:each="item : ${remainCourses}">
+                                <input type="checkbox" class="form-check-input" name="courseIds"
+                                       th:value="${item.courseId}" th:text="${item.courseName} + '---' + ${item.description}"/>
                             </div>
                             <input type="hidden" name = "chainId" id ="chainId" th:value="${chainId}"/>
                         </div>

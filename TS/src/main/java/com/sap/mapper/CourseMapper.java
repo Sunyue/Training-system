@@ -37,4 +37,9 @@ public interface CourseMapper {
     @Select("SELECT max(chaincourse.seqorder) FROM chaincourse WHERE chaincourse.chainid = #{chainId}")
     Integer getMaxSeqOrderbyChainId(@Param("chainId") Integer chainId);
 
+    @Select("SELECT courseinfo.* FROM courseinfo RIGHT JOIN \n" +
+            "( SELECT chaincourse.courseId FROM chaincourse WHERE chainId <> #{chainId} ) AS a \n" +
+            "ON courseinfo.courseId = a. courseId")
+    List<Course> getCourseOutsideChainId(@Param("chainId") Integer chainId);
+
 }

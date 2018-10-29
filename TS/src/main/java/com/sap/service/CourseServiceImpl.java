@@ -66,4 +66,9 @@ public class CourseServiceImpl implements CourseService{
     public Integer getCourseIdByName(String courseName){
         return courseMapper.getCourseIdByName(courseName);
     }
+
+    @Override
+    public List<Course> getCourseOutsideChain(Integer chainId){
+        return courseMapper.getCourseOutsideChainId(chainId);
+    }
 }
