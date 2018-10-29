@@ -65,7 +65,8 @@
 				<form id="newChainForm" class="form-horizontal" role="form" th:action="@{/admin/newchain}" method="post">
 					<div class="modal-body">
 						<div class="form-group">
-							<input type="text" class="form-control" id="chainName" name="chainName" placeholder="Chain Title"/>
+							<input type="text" class="form-control" id="chainName" name="chainName" placeholder="Chain Title"
+								   th:maxlength="40"/>
 						</div>
 					</div>
 					<div class="modal-footer">
