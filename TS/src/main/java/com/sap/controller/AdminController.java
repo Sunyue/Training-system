@@ -4,12 +4,14 @@ import com.github.pagehelper.PageInfo;
 import com.sap.Constant.Consts;
 import com.sap.domain.Chain;
 import com.sap.domain.Course;
+import com.sap.domain.CourseWrapper;
 import com.sap.domain.Material;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,6 +96,24 @@ public class AdminController extends MultistepController {
             redirectAttributes.addFlashAttribute("error","Failed to create new course, course name '"+courseName+"' already exist");
             return "redirect:/admin/course?chainId="+chainId;
         }
+    }
+
+    @RequestMapping(value="/addcourselist", method = RequestMethod.POST)
+    public String addNewcourses(RedirectAttributes redirectAttributes, Model model,
+                                @ModelAttribute CourseWrapper courseWrapper,
+                                @RequestParam(value= "chainId") Integer chainId) {
+
+        List<Integer> courseIds = courseWrapper.getCourseIds();
+        if(courseIds.isEmpty()){
+            redirectAttributes.addFlashAttribute("error","Course name List should not be empty");
+        }
+
+        else {
+            courseService.addExistingCourse(chainId, courseIds);
+            redirectAttributes.addFlashAttribute("error","Course name List should not be empty");
+        }
+
+        return "redirect:/admin/course?chainId="+chainId;
     }
 
     @RequestMapping("/material")
