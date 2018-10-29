@@ -43,8 +43,8 @@ public interface CourseMapper {
             "ON courseinfo.courseId = a. courseId")
     List<Course> getCourseOutsideChainId(@Param("chainId") Integer chainId);
 
-    @Insert("INSERT INTO chaincourse (chainid,courseid,seqorder) VALUES " +
-            "<foreach collection=\"list\" item=\"item\" index= \"index\" separator =\",\">" +
-            "(#{item.chainId}, #{item.courseId}, #{item.seqOrder}) </foreach>")
+    @Insert("<script> INSERT INTO chaincourse (chainid,courseid,seqorder) VALUES " +
+            "<foreach collection=\"courseList\" item=\"item\" index= \"index\" separator =\",\">" +
+            "(#{item.chainId}, #{item.courseId}, #{item.seqOrder}) </foreach> </script>")
     Integer insertcourseListRelation(@Param("courseList") List<CourseChain> courseList);
 }
