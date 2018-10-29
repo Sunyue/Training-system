@@ -36,4 +36,31 @@ public class CourseServiceImpl implements CourseService{
         PageInfo<String> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
+
+    @Override
+    public Integer createCourse(Integer chainId, String courseName, String courseDescription){
+        Integer result = 0;
+
+        if(courseMapper.createCourse(courseName, courseDescription) == 1) {
+            int newCourseId = courseMapper.getCourseIdByName(courseName);
+
+            int newOrder = 0;
+            try {
+                newOrder = courseMapper.getMaxSeqOrderbyChainId(chainId) + 1;
+            }
+            catch(Exception e) {
+                newOrder = 1;
+            }
+
+            if(courseMapper.insertcourseRelation(chainId, newCourseId, newOrder) == 1) {
+                result = 1;
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Integer getCourseIdByName(String courseName){
+        return courseMapper.getCourseIdByName(courseName);
+    }
 }

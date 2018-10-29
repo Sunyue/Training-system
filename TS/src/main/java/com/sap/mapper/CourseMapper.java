@@ -1,6 +1,7 @@
 package com.sap.mapper;
 
 import com.sap.domain.Course;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -23,4 +24,17 @@ public interface CourseMapper {
             "           AND courseinfo.courseid = chaincourse.courseid\n" +
             "           AND chaininfo.chainid = #{chainId}")
     List<String> selectCoursenameByChain(@Param("chainId") int chainId);
+
+    @Insert("INSERT INTO courseinfo (coursename,description,courselayer,parentcid) VALUES (#{courseName}, #{courseDescription}, 1, 0)")
+    int createCourse(@Param("courseName") String courseName, @Param("courseDescription") String courseDescription);
+
+    @Insert("INSERT INTO chaincourse (chainid,courseid,seqorder) VALUES (#{chainId}, #{courseId}, #{seqOrder})")
+    int insertcourseRelation(@Param("chainId") Integer chainId, @Param("courseId") Integer courseId, @Param("seqOrder") Integer seqOrder);
+
+    @Select("SELECT courseinfo.courseid FROM courseinfo WHERE coursename = #{courseName}")
+    Integer getCourseIdByName(@Param("courseName") String courseName);
+
+    @Select("SELECT max(chaincourse.seqorder) FROM chaincourse WHERE chaincourse.chainid = #{chainId}")
+    Integer getMaxSeqOrderbyChainId(@Param("chainId") Integer chainId);
+
 }
