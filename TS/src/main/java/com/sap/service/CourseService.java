@@ -12,4 +12,5 @@ public interface CourseService {
 	Integer createCourse(Integer chainId, String courseName, String courseDescription);
 	Integer getCourseIdByName(String courseName);
 	List<Course> getCourseOutsideChain(Integer chainId);
+	void addExistingCourse(Integer chainId, List<Integer> courseIds);
 }

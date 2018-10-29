@@ -1,10 +1,7 @@
 package com.sap.mapper;
 
 import com.sap.domain.Material;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -16,12 +13,16 @@ public interface MaterialMapper {
     List<Material> selectMaterialByCourse(@Param("courseId") int courseId);
 
     @Select("SELECT materialinfo.* FROM materialinfo \n" +
-            "         WHERE materialinfo.materialid = #{materialId}" )
-    Material selectMaterialById(@Param("materialId") int materialId);
+            "         WHERE materialinfo.materialid = #{material.materialId} and materialinfo.courseid = #{material.courseId}" )
+    Material selectMaterialById(@Param("material") Material material);
 
     @Insert("Insert into materialinfo(materialname,courseid,materialtype,attachfilepath) values \n"+
             "   (#{material.materialName},#{material.courseId},#{material.materialLearnType},#{material.attachFilepath})")
     void addMaterial(@Param("material") Material material );
+
+    @Delete("Delete from materialinfo where materialinfo.courseid = #{material.courseId}  \n"+
+            "and materialinfo.materialid= #{material.materialId} ")
+    void  deleteMaterial(@Param("material") Material material);
 
 
 }

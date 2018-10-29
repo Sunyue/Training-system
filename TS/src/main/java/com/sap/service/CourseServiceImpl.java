@@ -1,8 +1,10 @@
 package com.sap.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sap.domain.CourseChain;
 import com.sap.mapper.CourseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +50,7 @@ public class CourseServiceImpl implements CourseService{
                 try {
                     newOrder = courseMapper.getMaxSeqOrderbyChainId(chainId) + 1;
                 }
-                catch(Exception e) {
+                catch(Exception e) {  //No found chainId
                     newOrder = 1;
                 }
 
@@ -56,7 +58,7 @@ public class CourseServiceImpl implements CourseService{
                     result = 1;
                 }
             }
-        }catch (Exception e){
+        }catch (Exception e){ //repeat course records
             return 0;
         }
         return result;
@@ -67,8 +69,31 @@ public class CourseServiceImpl implements CourseService{
         return courseMapper.getCourseIdByName(courseName);
     }
 
+
     @Override
-    public List<Course> getCourseOutsideChain(Integer chainId){
+    public List<Course> getCourseOutsideChain(Integer chainId) {
         return courseMapper.getCourseOutsideChainId(chainId);
+    }
+
+    public void addExistingCourse(Integer chainId, List<Integer> courseIds) {
+        int newOrder = 0;
+        try {
+            newOrder = courseMapper.getMaxSeqOrderbyChainId(chainId) + 1;
+        }
+        catch(Exception e) {  //No found chainId
+            newOrder = 1;
+        }
+
+        List<CourseChain> courseInfoList = new ArrayList<CourseChain>();
+        for(Integer courseId: courseIds) {
+            CourseChain courseInfo =  new CourseChain();
+            courseInfo.setChainId(chainId);
+            courseInfo.setCourseId(courseId);
+            courseInfo.setSeqOrder(newOrder);
+            courseInfoList.add(courseInfo);
+            newOrder++;
+        }
+
+        courseMapper.insertcourseListRelation(courseInfoList);
     }
 }
