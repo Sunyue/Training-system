@@ -20,6 +20,7 @@
         <th>Number</th>
         <th>Description</th>
         <th>Download</th>
+        <th>Delete</th>
 
     </tr>
     </thead>
@@ -28,7 +29,11 @@
         <td th:text="${iterStat.index }+1" class="name"></td>
         <td th:text="${material.materialName}" class="description"></td>
         <td class="operate">
-            <a type="submit" class="btn btn-primary"  th:href="@{'/admin/download?materialId='+${material.materialId}}">Download</a>
+            <a type="submit" class="btn btn-primary" th:href="@{'/admin/download?materialId='+${material.materialId}}">Download</a>
+        </td>
+        <td class="operate">
+            <a type="submit" class="btn btn-primary"
+               th:href="@{'/admin/MaterialDelete?materialId='+${material.materialId}}">Delete</a>
         </td>
 
     </tr>
@@ -62,7 +67,9 @@
    var file = $("#inputfile").val();
    if(file == "")
    {
-        alert("Choose a file you want to upload!");
+         BootstrapDialog.show({
+            message: 'Choose a file you want to upload!'
+        });
         return false;
 
    }

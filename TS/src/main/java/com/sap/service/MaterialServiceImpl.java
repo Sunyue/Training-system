@@ -22,9 +22,9 @@ public class MaterialServiceImpl implements MaterialService{
 		// TODO Auto-generated method stub
 		return materialMapper.selectMaterialByCourse(courseId);
 	}
-	public Material selectMaterialById(Integer materialId)
+	public Material selectMaterialById(Material material)
     {
-        return materialMapper.selectMaterialById(materialId);
+        return materialMapper.selectMaterialById(material);
     }
 
     @Override
@@ -32,5 +32,8 @@ public class MaterialServiceImpl implements MaterialService{
         materialMapper.addMaterial(material);
     }
 
-
+    @Override
+    public void deleteMaterial(Material material) {
+        materialMapper.deleteMaterial(material);
+    }
 }
