@@ -19,8 +19,9 @@ public interface MaterialMapper {
             "         WHERE materialinfo.materialid = #{materialId}" )
     Material selectMaterialById(@Param("materialId") int materialId);
 
-    @Insert("Insert into materialinfo(materialname,courseid,materialtype) values \n"+
-            "   (#{material.materialName},#{material.courseId},#{material.materialLearnType})")
+    @Insert("Insert into materialinfo(materialname,courseid,materialtype,attachfilepath) values \n"+
+            "   (#{material.materialName},#{material.courseId},#{material.materialLearnType},#{material.attachFilepath})")
     void addMaterial(@Param("material") Material material );
+
 
 }
