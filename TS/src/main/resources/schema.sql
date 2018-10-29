@@ -18,8 +18,8 @@ CREATE TABLE `chaincourse` (
 
 DROP TABLE IF EXISTS `chaininfo`;
 CREATE TABLE `chaininfo` (
-  `chainid` int(11) NOT NULL,
-  `chainname` varchar(40) DEFAULT NULL,
+  `chainid` int(11) NOT NULL auto_increment,
+  `chainname` varchar(40) DEFAULT NULL UNIQUE,
   `isdefined` int(11) DEFAULT NULL,
   PRIMARY KEY (`chainid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -34,7 +34,7 @@ CREATE TABLE `userinfo` (
 
 DROP TABLE IF EXISTS `materialinfo`;
 CREATE TABLE `materialinfo` (
-  `materialid`   int(11) NOT NULL,
+  `materialid`   int(11) NOT NULL auto_increment,
   `materialname` varchar(100) NOT NULL,
   `courseid`     int(11) NOT NULL,
   `materialtype` int(11)  DEFAULT 3,
@@ -53,5 +53,3 @@ CREATE TABLE `userchain` (
   `status`       int(11) DEFAULT 0,
   PRIMARY KEY (`username`,`chainid`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-alter table materialinfo add materialid int auto_increment primary key;

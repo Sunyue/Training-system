@@ -41,4 +41,15 @@ public class ChainServiceImpl implements ChainService{
         return false;
     }
 
+    @Override
+    public Integer createChain(String chainName){
+        return chainMapper.createChain(chainName);
+    }
+
+    @Override
+    public Integer getChainIdByName(String chainName){
+        return chainMapper.getChainIdByName(chainName);
+    };
+
+
 }
