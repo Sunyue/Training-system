@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -101,14 +102,14 @@ public class AdminController extends MultistepController {
                                 @ModelAttribute(value="courseIds") CourseWrapper courseWrapper,
                                 @RequestParam(value= "chainId") Integer chainId) {
 
-        List<Integer> courseIds = courseWrapper.getCourseIds();
-        if(courseIds.isEmpty()){
+        List<Integer> courseIds = new ArrayList<Integer>();
+        courseIds = courseWrapper.getCourseIds();
+        if(courseIds == null || courseIds.isEmpty()){
             redirectAttributes.addFlashAttribute("error","Course name List should not be empty");
         }
 
         else {
             courseService.addExistingCourse(chainId, courseIds);
-            redirectAttributes.addFlashAttribute("error","Course name List should not be empty");
         }
 
         return "redirect:/admin/course?chainId="+chainId;
