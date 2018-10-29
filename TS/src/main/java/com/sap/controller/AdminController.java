@@ -1,14 +1,12 @@
 package com.sap.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.sap.Constant.Consts;
 import com.sap.domain.Chain;
 import com.sap.domain.Course;
 import com.sap.domain.CourseWrapper;
 import com.sap.domain.Material;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -154,15 +151,23 @@ public class AdminController extends MultistepController {
         newMaterial.setMaterialName(fileName);
         newMaterial.setAttachFilepath(path +fileName);
         newMaterial.setCourseId((Integer) session.getAttribute("courseId"));
-        materialService.addMaterial(newMaterial);
-        log.info("courseId=" + newMaterial.getCourseId());
+        try {
+            materialService.addMaterial(newMaterial);
+        }catch (Exception e){
+            log.error("Error when add Material");
+        }
+
         return "redirect:/admin/material?courseId=" + newMaterial.getCourseId();
     }
     @RequestMapping(value = "/download")
-    public void download( @RequestParam(value="materialId") Integer materialId,HttpServletResponse response){
-        Material material = materialService.selectMaterialById(materialId);
-      String path =  material.getAttachFilepath();
-      log.info("download file:"+path);
+    public void download(@RequestParam(value = "materialId") Integer materialId, HttpServletResponse response, HttpSession session) {
+
+        Material material = new Material();
+        material.setCourseId((Integer) session.getAttribute("courseId"));
+        material.setMaterialId(materialId);
+        material = materialService.selectMaterialById(material);
+        String path =  material.getAttachFilepath();
+        log.info("download file:"+path);
 
         File file = new File(path);
         if(file.exists()){
@@ -197,6 +202,21 @@ public class AdminController extends MultistepController {
                 e.printStackTrace();
             }
         }
+
+    }
+
+    @RequestMapping("/MaterialDelete")
+    public String deleteMaterial(@RequestParam(value = "materialId") Integer materialId, HttpSession session) {
+        Material material = new Material();
+        material.setCourseId((Integer) session.getAttribute("courseId"));
+        material.setMaterialId(materialId);
+        try {
+            materialService.deleteMaterial(material);
+        } catch (Exception e) {
+            log.error("Error when delete the material");
+        }
+
+        return "redirect:/admin/material?courseId=" + material.getCourseId();
 
     }
 }
