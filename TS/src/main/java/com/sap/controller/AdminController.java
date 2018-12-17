@@ -54,9 +54,6 @@ public class AdminController extends MultistepController {
             return "redirect:/admin/";
         }
 
-        
-        test
-
         if (chainService.createChain(chainName) == 1){
             Integer chainId = chainService.getChainIdByName(chainName);
             return "redirect:/admin/course?chainId="+chainId;
