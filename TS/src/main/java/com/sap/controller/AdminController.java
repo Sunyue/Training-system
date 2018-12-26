@@ -132,35 +132,75 @@ public class AdminController extends MultistepController {
 
 
         MultipartFile file = multiReq.getFile("file");
-        String fileName = file.getOriginalFilename();
-        String pathWebroot = this.getClass().getResource("/").toString();
-        pathWebroot = pathWebroot + "static/";
-        String path = pathWebroot.substring(5);
-        FileOutputStream fos = new FileOutputStream(new File(path +fileName));
-        FileInputStream fs = (FileInputStream) file.getInputStream();
-        byte[] buffer = new byte[1024];
-        int len = 0;
-        while ((len = fs.read(buffer)) != -1) {
-            fos.write(buffer, 0, len);
-        }
-        fos.close();
-        fs.close();
+        Integer courseId = (Integer) session.getAttribute("courseId");
 
-        String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
-        Material newMaterial = new Material();
-        newMaterial .setFileType(fileType);
-        log.info("path:" + path +fileName);
-        newMaterial.setMaterialName(fileName);
-        newMaterial.setAttachFilepath(path +fileName);
-        newMaterial.setCourseId((Integer) session.getAttribute("courseId"));
-        try {
-            materialService.addMaterial(newMaterial);
-        }catch (Exception e){
-            log.error("Error when add Material");
-        }
+        if(file.getSize() > 0) {
+            String inputFilePath = file.getOriginalFilename();
 
-        return "redirect:/admin/material?courseId=" + newMaterial.getCourseId();
+            log.info("inputFilePath:" + inputFilePath);
+
+            String fileName = inputFilePath;
+            if (inputFilePath.indexOf("\\") != -1) {
+                fileName = inputFilePath.substring(inputFilePath.lastIndexOf("\\") + 1);
+            }
+
+            log.info("fileName:" + fileName);
+
+            String pathWebroot = this.getClass().getResource("/").toString();
+
+            pathWebroot = pathWebroot.substring(5);
+            int focusIndex = pathWebroot.indexOf("out");
+            pathWebroot = pathWebroot.substring(0, focusIndex + 4);
+
+            log.info("pathWebroot:" + pathWebroot);
+            String uploadPath = pathWebroot + "Download_File";
+
+            File uploadDir = new File(uploadPath);
+            if(!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            //pathWebroot = pathWebroot + "static/";
+            //String path = pathWebroot.substring(5);
+            uploadPath = uploadPath + "/";
+
+            log.info("uploadPath:" + uploadPath);
+
+            FileInputStream fs = (FileInputStream) file.getInputStream();
+            FileOutputStream fos = new FileOutputStream(new File(uploadPath + fileName));
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while ((len = fs.read(buffer)) != -1) {
+                fos.write(buffer, 0, len);
+            }
+            fos.close();
+            fs.close();
+
+            String fileType = "";
+
+            if (fileName.indexOf(".") != -1) {
+                fileType = fileName.substring(fileName.lastIndexOf(".") + 1);
+            }
+            Material newMaterial = new Material();
+            newMaterial.setFileType(fileType);
+            log.info("uploadPath:" + uploadPath + fileName);
+            newMaterial.setMaterialName(fileName);
+            newMaterial.setAttachFilepath(uploadPath + fileName);
+            newMaterial.setCourseId((Integer) session.getAttribute("courseId"));
+            try {
+                materialService.addMaterial(newMaterial);
+            } catch (Exception e) {
+                log.error("Error when add Material");
+            }
+            //return normal CourseId
+        }
+        else {
+            //Need to redirect an empty message
+            log.error("Empty File");
+        }
+        return "redirect:/admin/material?courseId=" + courseId;
     }
+
     @RequestMapping(value = "/download")
     public void download(@RequestParam(value = "materialId") Integer materialId, HttpServletResponse response, HttpSession session) {
 
@@ -168,13 +208,19 @@ public class AdminController extends MultistepController {
         material.setCourseId((Integer) session.getAttribute("courseId"));
         material.setMaterialId(materialId);
         material = materialService.selectMaterialById(material);
-        String path =  material.getAttachFilepath();
-        log.info("download file:"+path);
+        String downloadPath =  material.getAttachFilepath();
+        log.info("download file:" + downloadPath);
 
-        File file = new File(path);
+        String fileName = downloadPath;
+        if(downloadPath.indexOf("\\") != -1) {
+            fileName = downloadPath.substring(downloadPath.lastIndexOf("\\") + 1);
+        }
+
+
+        File file = new File(downloadPath);
         if(file.exists()){
             response.setContentType("application/force-download");
-            response.setHeader("Content-Disposition", "attachment;fileName=" + path);
+            response.setHeader("Content-Disposition", "attachment;fileName=" + fileName);
 
             byte[] buffer = new byte[1024];
             FileInputStream fis = null; //文件输入流

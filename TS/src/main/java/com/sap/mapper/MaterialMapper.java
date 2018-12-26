@@ -16,8 +16,8 @@ public interface MaterialMapper {
             "         WHERE materialinfo.materialid = #{material.materialId} and materialinfo.courseid = #{material.courseId}" )
     Material selectMaterialById(@Param("material") Material material);
 
-    @Insert("Insert into materialinfo(materialname,courseid,materialtype,attachfilepath) values \n"+
-            "   (#{material.materialName},#{material.courseId},#{material.materialLearnType},#{material.attachFilepath})")
+    @Insert("Insert into materialinfo(materialname,courseid,filetype,attachfilepath) values \n"+
+            "   (#{material.materialName},#{material.courseId},#{material.fileType},#{material.attachFilepath})")
     void addMaterial(@Param("material") Material material );
 
     @Delete("Delete from materialinfo where materialinfo.courseid = #{material.courseId}  \n"+
