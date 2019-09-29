@@ -9,3 +9,5 @@ gradlew
 gradlew.bat
 TS/.gradle
 
+.idea
+TS/build
